@@ -1388,7 +1388,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   }
   function renderList(data,errMsg){
     var items=Array.isArray(data)?data.slice():[];
-    items.sort(function(a,b){return new Date(b&amp;&amp;b.creada)-new Date(a&amp;&amp;a.creada);});
+    items.sort(function(a,b){return (b&amp;&amp;b.creada_ts||0)-(a&amp;&amp;a.creada_ts||0);});
     var wrap=g(&quot;list_wrap&quot;);
     var html=&quot;&quot;;
     if(errMsg)html+='<div class=&quot;empty&quot; style=&quot;padding:10px 10px 18px&quot;>'+esc(errMsg)+'</div>';
@@ -1404,7 +1404,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
           +'<div class=&quot;title&quot;>'+esc(it.titulo)+'</div>'
           +'<span class=&quot;badge '+st.cls+'&quot;>'+st.txt+'</span>'
         +'</div>'
-        +'<div class=&quot;meta&quot;><span class=&quot;badge tool&quot;>'+esc(it.herramienta||&quot;—&quot;)+'</span>&amp;nbsp; Creada: '+fmtDate(it.creada)+'</div>'
+        +'<div class=&quot;meta&quot;><span class=&quot;badge tool&quot;>'+esc(it.herramienta||&quot;—&quot;)+'</span>&amp;nbsp; Creada: '+esc(it.creada||&quot;—&quot;)+'</div>'
       +'</div>';
     });
     wrap.innerHTML=html;
