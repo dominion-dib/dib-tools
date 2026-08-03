@@ -62,6 +62,10 @@
   .accentbar{height:5px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue2) 55%,var(--teal) 100%)}
   .body{background:#fff;padding:30px 30px 34px;border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;box-shadow:0 14px 40px rgba(8,36,110,.09)}
   .sec{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin:25px 0 12px;padding-left:10px;border-left:4px solid var(--teal)}
+  .secarrow{display:inline-block;margin-left:8px;font-size:11px;transition:transform .2s ease}
+  .sec.collapsed .secarrow,.shead.collapsed .secarrow{transform:rotate(-90deg)}
+  .secwrap{max-height:20000px;overflow:hidden;transition:max-height .3s ease}
+  .secwrap.collapsed{max-height:0}
   .fld{margin-bottom:12px}
   .fld label{display:block;font-size:13px;color:var(--ink2);margin-bottom:5px;font-weight:600}
   input,textarea,select{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:#fff;border:1px solid var(--border2);border-radius:6px;padding:9px 11px}
@@ -138,13 +142,13 @@
     <div class=&quot;sec&quot; id=&quot;sec-portada&quot;>1 · Portada</div>
     <div class=&quot;row&quot;>
       <div class=&quot;fld&quot;><label>Título — línea 1</label><input id=&quot;f_t1&quot; placeholder=&quot;Maintenance of Rotary Kiln&quot;></div>
-      <div class=&quot;fld&quot;><label>Título — línea 2 (cliente / localidad)</label><input id=&quot;f_t2&quot; placeholder=&quot;Currenta Leverkusen&quot;></div>
+      <div class=&quot;fld&quot;><label>Título — línea 2 (cliente / localidad)</label><input id=&quot;f_t2&quot; list=&quot;dl_hist_f_t2&quot; placeholder=&quot;Currenta Leverkusen&quot;><datalist id=&quot;dl_hist_f_t2&quot;></datalist></div>
       <div class=&quot;fld&quot;><label>Fecha de la oferta</label><input id=&quot;f_coverdate&quot; type=&quot;date&quot;></div>
     </div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot; id=&quot;fld_f_ref&quot;><label>Our Ref (DIB) <span class=&quot;req&quot;>*</span></label><input id=&quot;f_ref&quot; placeholder=&quot;DIB-26-03-0010&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;fld_f_ref&quot;><label>Our Ref (DIB) <span class=&quot;req&quot;>*</span></label><input id=&quot;f_ref&quot; placeholder=&quot;DIB-26-03-0010&quot;><div class=&quot;hint&quot;>Formato: DIB-AA-MM-NNNN (ej. DIB-26-03-0010).</div></div>
       <div class=&quot;fld&quot;><label>Revision nº</label><input id=&quot;f_rev&quot; placeholder=&quot;0&quot;></div>
-      <div class=&quot;fld&quot; id=&quot;fld_f_att&quot;><label>Attention (nombre y cargo) <span class=&quot;req&quot;>*</span></label><input id=&quot;f_att&quot; placeholder=&quot;Robert Loerken – Project Manager&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;fld_f_att&quot;><label>Attention (nombre y cargo) <span class=&quot;req&quot;>*</span></label><input id=&quot;f_att&quot; list=&quot;dl_hist_f_att&quot; placeholder=&quot;Robert Loerken – Project Manager&quot;><datalist id=&quot;dl_hist_f_att&quot;></datalist><div class=&quot;hint&quot;>Formato: Nombre completo – Cargo (ej. Robert Loerken – Project Manager).</div></div>
     </div>
     <div class=&quot;row&quot;>
       <div class=&quot;fld&quot; id=&quot;fld_f_desc&quot;><label>Project Description <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; placeholder=&quot;Rotary kiln at Currenta – Leverkusen&quot;></div>
@@ -163,8 +167,8 @@
       <div class=&quot;fld&quot;><label>Unidad / unidades a trabajar</label><input id=&quot;f_unit&quot; placeholder=&quot;Unit 10, Furnace section B&quot;></div>
     </div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Ciudad</label><input id=&quot;f_loc&quot; placeholder=&quot;Leverkusen&quot;></div>
-      <div class=&quot;fld&quot;><label>País</label><input id=&quot;f_country&quot; placeholder=&quot;Germany&quot;></div>
+      <div class=&quot;fld&quot;><label>Ciudad</label><input id=&quot;f_loc&quot; list=&quot;dl_hist_f_loc&quot; placeholder=&quot;Leverkusen&quot;><datalist id=&quot;dl_hist_f_loc&quot;></datalist></div>
+      <div class=&quot;fld&quot;><label>País</label><input id=&quot;f_country&quot; list=&quot;dl_hist_f_country&quot; placeholder=&quot;Germany&quot;><datalist id=&quot;dl_hist_f_country&quot;></datalist></div>
     </div>
     <div class=&quot;hint&quot; id=&quot;scope_prev&quot;></div>
 
@@ -178,6 +182,7 @@
       <div class=&quot;fld&quot; id=&quot;wrap_shifttype&quot;><label>Tipo de turno (si 1)</label><select id=&quot;f_shifttype&quot;><option value=&quot;day&quot;>Día (day shift)</option><option value=&quot;night&quot;>Noche (night shift)</option></select></div>
       <div class=&quot;fld&quot;><label>Horas / turno</label><input id=&quot;f_hours&quot; placeholder=&quot;10&quot;></div>
     </div>
+    <div class=&quot;hint&quot;>Cada columna de la tabla es una fase (step) y cada fila es un rol/categoría de personal; con 2 turnos cada fase se divide en Day/Night.</div>
     <div class=&quot;matrix-container&quot; id=&quot;matrix&quot;></div>
     <button class=&quot;tinybtn&quot; id=&quot;mp_addrow&quot; type=&quot;button&quot;>+ Añadir rol / categoría</button>
     <div class=&quot;hint&quot; id=&quot;mp_totals&quot; style=&quot;margin-top:8px;font-weight:700;color:var(--navy)&quot;></div>
@@ -258,12 +263,21 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function xesc(s){return String(s==null?&quot;&quot;:s).replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/</g,&quot;&amp;lt;&quot;).replace(/>/g,&quot;&amp;gt;&quot;);}
   function aesc(s){return String(s==null?&quot;&quot;:s).replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;).replace(/</g,&quot;&amp;lt;&quot;);}
 
+  /* histórico por campo (autocompletado) */
+  function histKey(id){return &quot;hist_&quot;+id;}
+  function loadHist(id){try{var a=JSON.parse(localStorage.getItem(histKey(id))||&quot;[]&quot;);return Array.isArray(a)?a:[];}catch(e){return [];}}
+  function fillHistDatalist(id){var dl=g(&quot;dl_hist_&quot;+id);if(!dl)return;dl.innerHTML=loadHist(id).map(function(val){return '<option value=&quot;'+aesc(val)+'&quot;></option>';}).join(&quot;&quot;);}
+  function saveHist(id){var el=g(id);if(!el)return;var val=el.value.trim();if(!val)return;var arr=loadHist(id).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(id),JSON.stringify(arr));}catch(e){}fillHistDatalist(id);}
+  var HIST_FIELDS_OFF=[&quot;f_t2&quot;,&quot;f_att&quot;,&quot;f_loc&quot;,&quot;f_country&quot;];
+  HIST_FIELDS_OFF.forEach(fillHistDatalist);
+
   /* defaults */
   (function(){var d=new Date();var p=function(n){return(n<10?&quot;0&quot;:&quot;&quot;)+n;};g(&quot;f_coverdate&quot;).value=d.getFullYear()+&quot;-&quot;+p(d.getMonth()+1)+&quot;-&quot;+p(d.getDate());})();
   g(&quot;f_reldocs&quot;).value=(T.DEFAULTS.relevant||[]).join(&quot;\n&quot;);
   g(&quot;f_exclusions&quot;).value=(T.DEFAULTS.exclusions||[]).join(&quot;\n&quot;);
   g(&quot;f_payment&quot;).value=(T.DEFAULTS.payment||[]).join(&quot;\n&quot;);
   g(&quot;f_hours&quot;).value=&quot;10&quot;;
+  g(&quot;f_rev&quot;).value=&quot;0&quot;;
 
   /* cost responsibility rows */
   var CR_DEF=[
@@ -438,6 +452,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       if(first)first.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;center&quot;});
       return;
     }
+    HIST_FIELDS_OFF.forEach(saveHist);
 
     JSZip.loadAsync(Uint8Array.from(atob(T.B64TPL),function(c){return c.charCodeAt(0);})).then(function(zip){
       return zip.file(&quot;word/document.xml&quot;).async(&quot;string&quot;).then(function(xml){
@@ -541,7 +556,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   (function(){
     var links=Array.prototype.slice.call(document.querySelectorAll(&quot;.secnav a&quot;));
     var secs=[&quot;sec-portada&quot;,&quot;sec-alcance&quot;,&quot;sec-precios&quot;,&quot;sec-docs&quot;,&quot;sec-legal&quot;].map(function(id){return g(id);}).filter(Boolean);
-    links.forEach(function(a){a.addEventListener(&quot;click&quot;,function(e){e.preventDefault();var t=g(a.dataset.sec);if(t)t.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});});});
+    links.forEach(function(a){a.addEventListener(&quot;click&quot;,function(e){e.preventDefault();if(window.__secExpandTo)window.__secExpandTo(a.dataset.sec);var t=g(a.dataset.sec);if(t)t.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});});});
     if(&quot;IntersectionObserver&quot; in window){
       var io=new IntersectionObserver(function(entries){
         entries.forEach(function(en){
@@ -553,6 +568,55 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       secs.forEach(function(s){io.observe(s);});
     }
   })();
+})();
+</script>
+<script>
+(function(){
+  function mkArrow(){var s=document.createElement(&quot;span&quot;);s.className=&quot;secarrow&quot;;s.textContent=&quot;▾&quot;;return s;}
+  Array.prototype.slice.call(document.querySelectorAll(&quot;.sec&quot;)).forEach(function(hd){
+    var items=[],n=hd.nextElementSibling;
+    while(n&amp;&amp;!n.classList.contains(&quot;sec&quot;)&amp;&amp;!n.classList.contains(&quot;btns&quot;)){items.push(n);n=n.nextElementSibling;}
+    if(!items.length)return;
+    var wrap=document.createElement(&quot;div&quot;);wrap.className=&quot;secwrap&quot;;
+    hd.parentNode.insertBefore(wrap,items[0]);
+    items.forEach(function(it){wrap.appendChild(it);});
+    hd.appendChild(mkArrow());
+    hd.style.cursor=&quot;pointer&quot;;
+    hd.addEventListener(&quot;click&quot;,function(){hd.classList.toggle(&quot;collapsed&quot;);wrap.classList.toggle(&quot;collapsed&quot;);});
+  });
+  Array.prototype.slice.call(document.querySelectorAll(&quot;.scard&quot;)).forEach(function(card){
+    var shead=card.firstElementChild;
+    if(!shead||!shead.classList||!shead.classList.contains(&quot;shead&quot;))return;
+    var items=[],n=shead.nextElementSibling;
+    while(n){items.push(n);n=n.nextElementSibling;}
+    if(!items.length)return;
+    var wrap=document.createElement(&quot;div&quot;);wrap.className=&quot;secwrap&quot;;
+    card.insertBefore(wrap,items[0]);
+    items.forEach(function(it){wrap.appendChild(it);});
+    var arrow=mkArrow();arrow.style.cursor=&quot;pointer&quot;;
+    arrow.addEventListener(&quot;click&quot;,function(ev){ev.stopPropagation();shead.classList.toggle(&quot;collapsed&quot;);wrap.classList.toggle(&quot;collapsed&quot;);});
+    shead.appendChild(arrow);
+  });
+  function removeCollapsed(e){if(e&amp;&amp;e.classList)e.classList.remove(&quot;collapsed&quot;);}
+  function wrapOf(hd){var w=hd.nextElementSibling;return(w&amp;&amp;w.classList&amp;&amp;w.classList.contains(&quot;secwrap&quot;))?w:null;}
+  window.__secExpandTo=function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    removeCollapsed(el);
+    removeCollapsed(wrapOf(el));
+    if(el.classList.contains(&quot;scard&quot;)&amp;&amp;el.firstElementChild){
+      removeCollapsed(el.firstElementChild);
+      removeCollapsed(wrapOf(el.firstElementChild));
+    }
+    var node=el.parentNode;
+    while(node){
+      if(node.classList&amp;&amp;node.classList.contains(&quot;secwrap&quot;)){
+        node.classList.remove(&quot;collapsed&quot;);
+        if(node.previousElementSibling)node.previousElementSibling.classList.remove(&quot;collapsed&quot;);
+      }
+      node=node.parentNode;
+    }
+  };
 })();
 </script>
 </body>
@@ -582,6 +646,10 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   .sec{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin:26px 0 10px;display:flex;align-items:center;gap:8px}
   .sec:first-child{margin-top:4px}
   .sec .muted{color:#9aa3b8;font-weight:500;text-transform:none;letter-spacing:0}
+  .secarrow{display:inline-block;margin-left:8px;font-size:11px;transition:transform .2s ease}
+  .sec.collapsed .secarrow,.shead.collapsed .secarrow{transform:rotate(-90deg)}
+  .secwrap{max-height:20000px;overflow:hidden;transition:max-height .3s ease}
+  .secwrap.collapsed{max-height:0}
   .subt{font-size:12px;font-weight:700;color:var(--navy);margin:10px 0 6px;letter-spacing:.02em}
   .fld{margin-bottom:12px}
   .fld label{display:block;font-size:13px;color:var(--ink2);margin-bottom:5px;font-weight:500}
@@ -673,7 +741,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   <div class=&quot;body&quot;>
     <div class=&quot;sec&quot;>Asunto del proyecto</div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Código de proyecto <span class=&quot;req&quot;>*</span></label><input id=&quot;f_codigo&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Código de proyecto <span class=&quot;req&quot;>*</span></label><input id=&quot;f_codigo&quot; type=&quot;text&quot;><div class=&quot;hint&quot;>Formato: BIPR + año + nº de pedido (ej. BIPR26-00084).</div></div>
       <div class=&quot;fld&quot;><label>Descripción <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; type=&quot;text&quot;></div>
     </div>
 
@@ -682,14 +750,14 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       <div class=&quot;fld&quot;><label>Cliente final</label>
         <select id=&quot;i_cliente&quot;><option value=&quot;&quot;>— Selecciona —</option><option>Dominion Deutschland</option><option>F&amp;amp;S FeuerFestbau</option><option>Dominion Novocos</option><option value=&quot;__otro&quot;>Otro…</option></select>
       </div>
-      <div class=&quot;fld&quot; id=&quot;i_cliente_otro_wrap&quot; style=&quot;display:none&quot;><label>Otro cliente</label><input id=&quot;i_cliente_otro&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;i_cliente_otro_wrap&quot; style=&quot;display:none&quot;><label>Otro cliente</label><input id=&quot;i_cliente_otro&quot; type=&quot;text&quot; list=&quot;dl_hist_i_cliente_otro&quot;><datalist id=&quot;dl_hist_i_cliente_otro&quot;></datalist></div>
     </div>
 
     <div class=&quot;sec&quot;>Datos internos del pedido <span class=&quot;muted&quot;>— no se incluyen en el correo</span></div>
     <div class=&quot;intbox&quot;>
       <div class=&quot;row&quot;>
-        <div class=&quot;fld&quot;><label>Contrato</label><input id=&quot;i_contrato&quot; type=&quot;text&quot;></div>
-        <div class=&quot;fld&quot;><label>Jefe de proyecto DIB</label><input id=&quot;i_jppdib&quot; type=&quot;text&quot;></div>
+        <div class=&quot;fld&quot;><label>Contrato</label><input id=&quot;i_contrato&quot; type=&quot;text&quot; list=&quot;dl_hist_i_contrato&quot;><datalist id=&quot;dl_hist_i_contrato&quot;></datalist></div>
+        <div class=&quot;fld&quot;><label>Jefe de proyecto DIB</label><input id=&quot;i_jppdib&quot; type=&quot;text&quot; list=&quot;dl_hist_i_jppdib&quot;><datalist id=&quot;dl_hist_i_jppdib&quot;></datalist></div>
       </div>
       <div class=&quot;fld&quot;><label>Email JP DIB (opcional — si se rellena, se añade como destinatario)</label><input id=&quot;i_jppdib_email&quot; type=&quot;email&quot;></div>
     </div>
@@ -711,18 +779,18 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     <div class=&quot;scard&quot; data-k=&quot;dir&quot; id=&quot;sec-dir&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;DIRECCIÓN PLANTA&quot;></div>
       <div class=&quot;fld&quot;><label>Dirección</label><textarea id=&quot;dir_ta&quot;></textarea></div>
-      <div class=&quot;fld&quot;><label>Enlace Google Maps (opcional)</label><input id=&quot;dir_maps&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Enlace Google Maps (opcional)</label><input id=&quot;dir_maps&quot; type=&quot;text&quot;><div class=&quot;hint&quot;>Pega aquí el enlace de Google Maps de la ubicación.</div></div>
       <div class=&quot;hint&quot;>La primera línea (nombre de la planta) se usa en la introducción.</div>
     </div>
 
     <div class=&quot;scard&quot; data-k=&quot;per&quot; id=&quot;sec-per&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;PERSONAL&quot;></div>
       <div class=&quot;subt&quot;>Project Manager</div>
-      <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;pm_name&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;pm_name&quot; type=&quot;text&quot; list=&quot;dl_hist_pm_name&quot;><datalist id=&quot;dl_hist_pm_name&quot;></datalist></div>
       <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;pm_tel&quot; type=&quot;text&quot;></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;pm_mov&quot; type=&quot;text&quot;></div></div>
       <div class=&quot;fld&quot;><label>Email</label><input id=&quot;pm_email&quot; type=&quot;email&quot;></div>
       <div class=&quot;subt&quot;>Jefe de obra</div>
-      <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;jo_name&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;jo_name&quot; type=&quot;text&quot; list=&quot;dl_hist_jo_name&quot;><datalist id=&quot;dl_hist_jo_name&quot;></datalist></div>
       <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;jo_tel&quot; type=&quot;text&quot;></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;jo_mov&quot; type=&quot;text&quot;></div></div>
       <div class=&quot;hint&quot;>Rellena el que tengas; en el correo solo aparece el contacto con nombre.</div>
     </div>
@@ -842,6 +910,13 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function chk(c){return c.querySelector('.shead input[type=checkbox]');}
   function hdr(c){return c.querySelector('.shdr');}
   function ta(c){return c.querySelector('textarea');}
+
+  /* histórico por campo (autocompletado) */
+  function histKey(id){return &quot;hist_&quot;+id;}
+  function loadHist(id){try{var a=JSON.parse(localStorage.getItem(histKey(id))||&quot;[]&quot;);return Array.isArray(a)?a:[];}catch(e){return [];}}
+  function fillHistDatalist(id){var dl=g(&quot;dl_hist_&quot;+id);if(!dl)return;dl.innerHTML=loadHist(id).map(function(val){return '<option value=&quot;'+val.replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;)+'&quot;></option>';}).join(&quot;&quot;);}
+  function saveHist(id){var el=g(id);if(!el)return;var val=el.value.trim();if(!val)return;var arr=loadHist(id).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(id),JSON.stringify(arr));}catch(e){}fillHistDatalist(id);}
+  var HIST_FIELDS_PRL=[&quot;i_jppdib&quot;,&quot;pm_name&quot;,&quot;jo_name&quot;,&quot;i_contrato&quot;,&quot;i_cliente_otro&quot;];
 
   var roles=[[&quot;enc&quot;,&quot;Encargado&quot;,&quot;Encargados&quot;],[&quot;lead&quot;,&quot;Jefe de equipo&quot;,&quot;Jefes de equipo&quot;],[&quot;ofi&quot;,&quot;Oficial&quot;,&quot;Oficiales&quot;],[&quot;ayu&quot;,&quot;Ayudante&quot;,&quot;Ayudantes&quot;]];
   var shiftDefs=[[&quot;dia&quot;,&quot;TURNO DÍA&quot;,&quot;día&quot;],[&quot;tarde&quot;,&quot;TURNO TARDE&quot;,&quot;tarde&quot;],[&quot;noche&quot;,&quot;TURNO NOCHE&quot;,&quot;noche&quot;]];
@@ -964,6 +1039,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   }
 
   renderChips();setPlaceholders();
+  HIST_FIELDS_PRL.forEach(fillHistDatalist);
   [&quot;f_codigo&quot;,&quot;f_desc&quot;,&quot;dir_ta&quot;].forEach(function(id){g(id).addEventListener(&quot;input&quot;,function(){g(&quot;f_intro&quot;).value=buildIntro();});});
   [&quot;i_jppdib&quot;,&quot;i_jppdib_email&quot;].forEach(function(id){g(id).addEventListener(&quot;input&quot;,renderChips);});
   cards.forEach(function(c){chk(c).addEventListener(&quot;change&quot;,refreshDim);});
@@ -972,8 +1048,11 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   g(&quot;eqcard&quot;).addEventListener(&quot;click&quot;,function(e){var b=e.target.closest(&quot;button.up,button.dn&quot;);if(!b)return;var s=g(b.dataset.target);var v=(parseInt(s.textContent,10)||0)+(b.classList.contains(&quot;up&quot;)?1:-1);if(v<0)v=0;s.textContent=v;updTeamTotal(b.dataset.target.split(&quot;_&quot;)[0]);});
   g(&quot;ed_body&quot;).addEventListener(&quot;input&quot;,renderPreview);
   clearAll();
+  if(!g(&quot;f_saludo&quot;).value)g(&quot;f_saludo&quot;).value=EX.saludo;
+  if(!g(&quot;f_cierre&quot;).value)g(&quot;f_cierre&quot;).value=EX.cierre;
 
   g(&quot;btn_gen&quot;).addEventListener(&quot;click&quot;,function(){
+    HIST_FIELDS_PRL.forEach(saveHist);
     computeHeaderSet();var m=getEmail();g(&quot;ed_subject&quot;).value=m.subject;g(&quot;ed_body&quot;).value=m.body;renderPreview();g(&quot;editbox&quot;).style.display=&quot;block&quot;;g(&quot;editbox&quot;).scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});
     downloadExcel(true);
     var faltan=[];if(!g(&quot;f_codigo&quot;).value.trim())faltan.push(&quot;Código&quot;);if(!g(&quot;f_desc&quot;).value.trim())faltan.push(&quot;Descripción&quot;);
@@ -1045,7 +1124,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   (function(){
     var links=Array.prototype.slice.call(document.querySelectorAll(&quot;.secnav a&quot;));
     var secs=[&quot;sec-dir&quot;,&quot;sec-per&quot;,&quot;sec-seg&quot;,&quot;sec-plan&quot;,&quot;sec-jor&quot;,&quot;eqcard&quot;,&quot;sec-trab&quot;,&quot;sec-not&quot;,&quot;sec-cierre&quot;].map(function(id){return g(id);}).filter(Boolean);
-    links.forEach(function(a){a.addEventListener(&quot;click&quot;,function(e){e.preventDefault();var t=g(a.dataset.sec);if(t)t.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});});});
+    links.forEach(function(a){a.addEventListener(&quot;click&quot;,function(e){e.preventDefault();if(window.__secExpandTo)window.__secExpandTo(a.dataset.sec);var t=g(a.dataset.sec);if(t)t.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});});});
     if(&quot;IntersectionObserver&quot; in window){
       var io=new IntersectionObserver(function(entries){
         entries.forEach(function(en){
@@ -1102,6 +1181,55 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   document.getElementById('prl_save').onclick=function(){var blob=new Blob([JSON.stringify(collect(),null,2)],{type:&quot;application/json&quot;});var a=document.createElement('a');a.href=URL.createObjectURL(blob);var c=document.getElementById('f_codigo');var cod=(c&amp;&amp;c.value.trim())||&quot;borrador&quot;;a.download=cod.replace(/[^\w.-]+/g,&quot;_&quot;)+&quot;_PRL.json&quot;;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);};
   document.getElementById('prl_file').onchange=function(e){var fl=e.target.files[0];if(!fl)return;var rd=new FileReader();rd.onload=function(){try{apply(JSON.parse(rd.result));save();document.getElementById('prl_autosave').textContent=&quot;Borrador cargado desde archivo.&quot;;}catch(err){alert(&quot;Archivo no valido: &quot;+err.message);}};rd.readAsText(fl);e.target.value=&quot;&quot;;};
   try{var sv=localStorage.getItem(SKEY);if(sv){apply(JSON.parse(sv));document.getElementById('prl_autosave').textContent=&quot;Borrador recuperado automaticamente.&quot;;}}catch(e){}
+})();
+</script>
+<script>
+(function(){
+  function mkArrow(){var s=document.createElement(&quot;span&quot;);s.className=&quot;secarrow&quot;;s.textContent=&quot;▾&quot;;return s;}
+  Array.prototype.slice.call(document.querySelectorAll(&quot;.sec&quot;)).forEach(function(hd){
+    var items=[],n=hd.nextElementSibling;
+    while(n&amp;&amp;!n.classList.contains(&quot;sec&quot;)&amp;&amp;!n.classList.contains(&quot;btns&quot;)){items.push(n);n=n.nextElementSibling;}
+    if(!items.length)return;
+    var wrap=document.createElement(&quot;div&quot;);wrap.className=&quot;secwrap&quot;;
+    hd.parentNode.insertBefore(wrap,items[0]);
+    items.forEach(function(it){wrap.appendChild(it);});
+    hd.appendChild(mkArrow());
+    hd.style.cursor=&quot;pointer&quot;;
+    hd.addEventListener(&quot;click&quot;,function(){hd.classList.toggle(&quot;collapsed&quot;);wrap.classList.toggle(&quot;collapsed&quot;);});
+  });
+  Array.prototype.slice.call(document.querySelectorAll(&quot;.scard&quot;)).forEach(function(card){
+    var shead=card.firstElementChild;
+    if(!shead||!shead.classList||!shead.classList.contains(&quot;shead&quot;))return;
+    var items=[],n=shead.nextElementSibling;
+    while(n){items.push(n);n=n.nextElementSibling;}
+    if(!items.length)return;
+    var wrap=document.createElement(&quot;div&quot;);wrap.className=&quot;secwrap&quot;;
+    card.insertBefore(wrap,items[0]);
+    items.forEach(function(it){wrap.appendChild(it);});
+    var arrow=mkArrow();arrow.style.cursor=&quot;pointer&quot;;
+    arrow.addEventListener(&quot;click&quot;,function(ev){ev.stopPropagation();shead.classList.toggle(&quot;collapsed&quot;);wrap.classList.toggle(&quot;collapsed&quot;);});
+    shead.appendChild(arrow);
+  });
+  function removeCollapsed(e){if(e&amp;&amp;e.classList)e.classList.remove(&quot;collapsed&quot;);}
+  function wrapOf(hd){var w=hd.nextElementSibling;return(w&amp;&amp;w.classList&amp;&amp;w.classList.contains(&quot;secwrap&quot;))?w:null;}
+  window.__secExpandTo=function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    removeCollapsed(el);
+    removeCollapsed(wrapOf(el));
+    if(el.classList.contains(&quot;scard&quot;)&amp;&amp;el.firstElementChild){
+      removeCollapsed(el.firstElementChild);
+      removeCollapsed(wrapOf(el.firstElementChild));
+    }
+    var node=el.parentNode;
+    while(node){
+      if(node.classList&amp;&amp;node.classList.contains(&quot;secwrap&quot;)){
+        node.classList.remove(&quot;collapsed&quot;);
+        if(node.previousElementSibling)node.previousElementSibling.classList.remove(&quot;collapsed&quot;);
+      }
+      node=node.parentNode;
+    }
+  };
 })();
 </script>
 </body>
