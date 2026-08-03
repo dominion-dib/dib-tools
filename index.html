@@ -1296,7 +1296,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   .badge.done{background:#e0f6ea;color:#0f7a4c;border:1px solid #a9e2c4}
   .badge.review{background:#fff3d6;color:#8a6d1c;border:1px solid #f2d98a}
   .badge.pending{background:#eef1f6;color:#5b6577;border:1px solid var(--border2)}
+  .badge.local{background:#f4f4f6;color:#70788a;border:1px dashed var(--border2)}
   .card .meta{font-size:12.5px;color:#8a93a8}
+  .card .hint{font-size:12px;color:#8a93a8;font-style:italic}
   .empty{font-size:13.5px;color:#8a93a8;text-align:center;padding:24px 10px}
   a.linklike{color:var(--blue2);text-decoration:none;font-weight:600;font-size:13px;transition:color var(--transition)}
   a.linklike:hover{text-decoration:underline;color:var(--blue)}
@@ -1340,7 +1342,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       <div class=&quot;sec&quot; style=&quot;margin:0&quot;>Solicitudes</div>
       <div style=&quot;display:flex;gap:10px;align-items:center&quot;>
         <button class=&quot;act&quot; id=&quot;btn_refresh&quot; type=&quot;button&quot;>Actualizar</button>
-        <a class=&quot;linklike&quot; href=&quot;https://github.com/dominion-dib/dib-tools/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Ver todo en GitHub ↗</a>
+        <a class=&quot;linklike&quot; href=&quot;https://github.com/dominion-dib/dib-tools/blob/main/solicitudes.json&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>Ver todo en GitHub ↗</a>
       </div>
     </div>
     <div class=&quot;list&quot; id=&quot;list_wrap&quot;>
@@ -1380,44 +1382,49 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       return &quot;&quot;;
     }
   }
-  function labelHerramienta(labels){
-    var i;
-    for(i=0;i<labels.length;i++){
-      var n=(labels[i]&amp;&amp;labels[i].name)||&quot;&quot;;
-      if(n===&quot;herramienta:ofertas&quot;)return &quot;Ofertas&quot;;
-      if(n===&quot;herramienta:prl&quot;)return &quot;PRL&quot;;
-    }
-    return &quot;—&quot;;
+  var LSKEY=&quot;solicitudes_pendientes_local&quot;;
+  var REMOTE_URL=&quot;https://raw.githubusercontent.com/dominion-dib/dib-tools/main/solicitudes.json&quot;;
+  function getLocal(){
+    try{
+      var raw=localStorage.getItem(LSKEY);
+      var arr=raw?JSON.parse(raw):[];
+      return Array.isArray(arr)?arr:[];
+    }catch(e){return [];}
   }
-  function statusOf(issue){
-    if(issue.state===&quot;closed&quot;)return {cls:&quot;done&quot;,txt:&quot;Completada&quot;};
-    var labels=issue.labels||[];
-    var i;
-    for(i=0;i<labels.length;i++){
-      var n=(labels[i]&amp;&amp;labels[i].name)||&quot;&quot;;
-      if(n===&quot;estado:a-revisar&quot;)return {cls:&quot;review&quot;,txt:&quot;A revisar&quot;};
-    }
+  function setLocal(arr){
+    try{localStorage.setItem(LSKEY,JSON.stringify(arr.slice(0,50)));}catch(e){}
+  }
+  function statusOf(estado){
+    if(estado===&quot;Completada&quot;)return {cls:&quot;done&quot;,txt:&quot;Completada&quot;};
+    if(estado===&quot;A revisar&quot;)return {cls:&quot;review&quot;,txt:&quot;A revisar&quot;};
     return {cls:&quot;pending&quot;,txt:&quot;Pendiente&quot;};
   }
-  function renderList(issues){
+  function renderMerged(remote,errMsg){
+    var local=getLocal();
+    var remoteIds={};
+    remote.forEach(function(r){remoteIds[String(r&amp;&amp;r.id)]=true;});
+    var stillLocal=local.filter(function(l){return !remoteIds[String(l&amp;&amp;l.id)];});
+    if(stillLocal.length!==local.length)setLocal(stillLocal);
+    var combined=remote.map(function(r){return Object.assign({},r,{_local:false});})
+      .concat(stillLocal.map(function(l){return Object.assign({},l,{_local:true});}));
+    combined.sort(function(a,b){return new Date(b.creada)-new Date(a.creada);});
     var wrap=g(&quot;list_wrap&quot;);
-    var filtered=issues.filter(function(it){
-      var labels=it.labels||[];
-      return labels.some(function(l){return l&amp;&amp;typeof l.name===&quot;string&quot;&amp;&amp;l.name.indexOf(&quot;herramienta:&quot;)===0;});
-    });
-    if(!filtered.length){
-      wrap.innerHTML='<div class=&quot;empty&quot;>Aún no hay solicitudes.</div>';
+    var html=&quot;&quot;;
+    if(errMsg)html+='<div class=&quot;empty&quot; style=&quot;padding:10px 10px 18px&quot;>'+esc(errMsg)+'</div>';
+    if(!combined.length){
+      html+='<div class=&quot;empty&quot;>Aún no hay solicitudes.</div>';
+      wrap.innerHTML=html;
       return;
     }
-    var html=&quot;&quot;;
-    filtered.forEach(function(it){
-      var st=statusOf(it);
+    combined.forEach(function(it){
+      var st=it._local?{cls:&quot;local&quot;,txt:&quot;Pendiente de sincronizar&quot;}:statusOf(it.estado);
       html+='<div class=&quot;card&quot;>'
         +'<div class=&quot;top&quot;>'
-          +'<div class=&quot;title&quot;>'+esc(it.title)+'</div>'
+          +'<div class=&quot;title&quot;>'+esc(it.titulo)+'</div>'
           +'<span class=&quot;badge '+st.cls+'&quot;>'+st.txt+'</span>'
         +'</div>'
-        +'<div class=&quot;meta&quot;><span class=&quot;badge tool&quot;>'+labelHerramienta(it.labels||[])+'</span>&amp;nbsp; Creada: '+fmtDate(it.created_at)+'</div>'
+        +'<div class=&quot;meta&quot;><span class=&quot;badge tool&quot;>'+esc(it.herramienta||&quot;—&quot;)+'</span>&amp;nbsp; Creada: '+fmtDate(it.creada)+'</div>'
+        +(it._local?'<div class=&quot;hint&quot;>Esta solicitud se descargó pero aún no está en la lista compartida.</div>':'')
       +'</div>';
     });
     wrap.innerHTML=html;
@@ -1425,18 +1432,18 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function loadList(){
     var wrap=g(&quot;list_wrap&quot;);
     wrap.innerHTML='<div class=&quot;empty&quot;>Cargando solicitudes…</div>';
-    fetch(&quot;https://api.github.com/repos/dominion-dib/dib-tools/issues?state=all&amp;per_page=100&amp;sort=created&amp;direction=desc&quot;)
+    fetch(REMOTE_URL,{cache:&quot;no-store&quot;})
       .then(function(r){
         if(!r.ok)throw new Error(&quot;HTTP &quot;+r.status);
         return r.json();
       })
       .then(function(data){
         if(!Array.isArray(data))throw new Error(&quot;respuesta inesperada&quot;);
-        renderList(data);
+        renderMerged(data,null);
       })
       .catch(function(e){
-        console.error(&quot;Error cargando solicitudes:&quot;,e);
-        wrap.innerHTML='<div class=&quot;empty&quot;>No se pudo cargar el listado ahora mismo.</div>';
+        console.error(&quot;Error cargando solicitudes compartidas:&quot;,e);
+        renderMerged([],&quot;No se pudo cargar el listado compartido ahora mismo.&quot;);
       });
   }
   function sendRequest(){
@@ -1451,42 +1458,40 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       msg(&quot;err&quot;,&quot;Completa los campos obligatorios (título y descripción).&quot;);
       return;
     }
-    var herramienta=g(&quot;f_herramienta&quot;).value;
-    var label=herramienta===&quot;prl&quot;?&quot;herramienta:prl&quot;:&quot;herramienta:ofertas&quot;;
+    var herramienta=g(&quot;f_herramienta&quot;).value===&quot;prl&quot;?&quot;PRL&quot;:&quot;Ofertas&quot;;
     var btn=g(&quot;btn_send&quot;);
     btn.disabled=true;
-    fetch(&quot;https://api.github.com/repos/dominion-dib/dib-tools/issues&quot;,{
-      method:&quot;POST&quot;,
-      headers:{
-        &quot;Authorization&quot;:&quot;Bearer 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&quot;,
-        &quot;Accept&quot;:&quot;application/vnd.github+json&quot;,
-        &quot;Content-Type&quot;:&quot;application/json&quot;
-      },
-      body:JSON.stringify({
-        title:titulo,
-        body:desc+&quot;\n\n---\nEnviado desde la pestaña Solicitar cambios.&quot;,
-        labels:[label]
-      })
-    }).then(function(r){
-      if(r.status===201){
-        msg(&quot;ok&quot;,&quot;Solicitud enviada correctamente.&quot;);
-        g(&quot;f_titulo&quot;).value=&quot;&quot;;
-        g(&quot;f_desc&quot;).value=&quot;&quot;;
-        g(&quot;f_herramienta&quot;).value=&quot;ofertas&quot;;
-        btn.disabled=false;
-        loadList();
-      }else{
-        r.text().then(function(t){
-          console.error(&quot;Error enviando solicitud: HTTP &quot;+r.status+&quot; &quot;+t);
-        });
-        btn.disabled=false;
-        msg(&quot;err&quot;,&quot;No se pudo enviar la solicitud. Comprueba la conexión o inténtalo más tarde.&quot;);
-      }
-    }).catch(function(e){
-      console.error(&quot;Error enviando solicitud:&quot;,e);
+    var item={
+      id:Date.now(),
+      herramienta:herramienta,
+      titulo:titulo,
+      descripcion:desc,
+      estado:&quot;Pendiente&quot;,
+      creada:new Date().toISOString()
+    };
+    try{
+      var blob=new Blob([JSON.stringify(item,null,2)],{type:&quot;application/json&quot;});
+      var a=document.createElement(&quot;a&quot;);
+      a.href=URL.createObjectURL(blob);
+      a.download=(&quot;solicitud_&quot;+item.id).replace(/[^\w.-]+/g,&quot;_&quot;)+&quot;.json&quot;;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);
+    }catch(e){
+      console.error(&quot;Error generando el archivo de la solicitud:&quot;,e);
       btn.disabled=false;
-      msg(&quot;err&quot;,&quot;No se pudo enviar la solicitud. Comprueba la conexión o inténtalo más tarde.&quot;);
-    });
+      msg(&quot;err&quot;,&quot;No se pudo generar el archivo de la solicitud.&quot;);
+      return;
+    }
+    var local=getLocal();
+    local.unshift(item);
+    setLocal(local);
+    btn.disabled=false;
+    msg(&quot;ok&quot;,&quot;Solicitud descargada a tu carpeta de Descargas. Se añadirá a la lista compartida cuando se sincronice.&quot;);
+    g(&quot;f_titulo&quot;).value=&quot;&quot;;
+    g(&quot;f_desc&quot;).value=&quot;&quot;;
+    g(&quot;f_herramienta&quot;).value=&quot;ofertas&quot;;
+    loadList();
   }
   g(&quot;btn_send&quot;).onclick=sendRequest;
   g(&quot;btn_refresh&quot;).onclick=loadList;
