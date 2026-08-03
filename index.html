@@ -101,9 +101,27 @@
   .warn.ok{color:#1c6b4a;background:#e8f8f0;border:1px solid #bfe8d5}
   .warn.err{color:#8a2b2b;background:#fdeaea;border:1px solid #f4c7c7}
   .hint{font-size:12px;color:#8a93a8;margin-top:5px}
+  .req{color:#c0392b;font-weight:700}
+  .fld.error input,.fld.error textarea,.fld.error select{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.15)}
+  table.matrix input.badnum{border-color:#c0392b;background:#fdeaea}
+  #autosave_hint.flash{animation:flashHint .8s ease}
+  @keyframes flashHint{0%{background:#d7ebff}100%{background:transparent}}
+  html{scroll-behavior:smooth}
+  .secnav{position:fixed;left:14px;top:90px;z-index:5;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 4px;display:flex;flex-direction:column;gap:2px;box-shadow:0 8px 24px rgba(8,36,110,.10);font-size:12.5px;max-width:150px}
+  .secnav a{color:var(--ink2);text-decoration:none;padding:7px 10px;border-radius:6px;font-weight:600}
+  .secnav a:hover{background:var(--g2)}
+  .secnav a.active{color:#fff;background:var(--blue)}
+  @media (max-width:1300px){.secnav{display:none}}
 </style>
 </head>
 <body>
+<nav class=&quot;secnav&quot; id=&quot;secnav&quot;>
+  <a href=&quot;#sec-portada&quot; data-sec=&quot;sec-portada&quot;>1 · Portada</a>
+  <a href=&quot;#sec-alcance&quot; data-sec=&quot;sec-alcance&quot;>2 · Alcance</a>
+  <a href=&quot;#sec-precios&quot; data-sec=&quot;sec-precios&quot;>3 · Precios</a>
+  <a href=&quot;#sec-docs&quot; data-sec=&quot;sec-docs&quot;>4 · Secciones</a>
+  <a href=&quot;#sec-legal&quot; data-sec=&quot;sec-legal&quot;>5 · Legal</a>
+</nav>
 <div class=&quot;wrap&quot;>
   <header>
     <div class=&quot;brand&quot;>
@@ -117,23 +135,23 @@
 
     <div class=&quot;hint&quot; style=&quot;margin:0 0 14px;font-size:13px;color:#4a5568&quot;>Rellena los campos y pulsa <b>Generar oferta .docx</b>. Tu borrador se guarda solo en este equipo; usa <b>Guardar/Cargar borrador</b> para compartirlo.</div>
 
-    <div class=&quot;sec&quot;>1 · Portada</div>
+    <div class=&quot;sec&quot; id=&quot;sec-portada&quot;>1 · Portada</div>
     <div class=&quot;row&quot;>
       <div class=&quot;fld&quot;><label>Título — línea 1</label><input id=&quot;f_t1&quot; placeholder=&quot;Maintenance of Rotary Kiln&quot;></div>
       <div class=&quot;fld&quot;><label>Título — línea 2 (cliente / localidad)</label><input id=&quot;f_t2&quot; placeholder=&quot;Currenta Leverkusen&quot;></div>
-      <div class=&quot;fld&quot;><label>Fecha de la oferta</label><input id=&quot;f_coverdate&quot; placeholder=&quot;dd/mm/aaaa&quot;></div>
+      <div class=&quot;fld&quot;><label>Fecha de la oferta</label><input id=&quot;f_coverdate&quot; type=&quot;date&quot;></div>
     </div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Our Ref (DIB)</label><input id=&quot;f_ref&quot; placeholder=&quot;DIB-26-03-0010&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;fld_f_ref&quot;><label>Our Ref (DIB) <span class=&quot;req&quot;>*</span></label><input id=&quot;f_ref&quot; placeholder=&quot;DIB-26-03-0010&quot;></div>
       <div class=&quot;fld&quot;><label>Revision nº</label><input id=&quot;f_rev&quot; placeholder=&quot;0&quot;></div>
-      <div class=&quot;fld&quot;><label>Attention (nombre y cargo)</label><input id=&quot;f_att&quot; placeholder=&quot;Robert Loerken – Project Manager&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;fld_f_att&quot;><label>Attention (nombre y cargo) <span class=&quot;req&quot;>*</span></label><input id=&quot;f_att&quot; placeholder=&quot;Robert Loerken – Project Manager&quot;></div>
     </div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Project Description</label><input id=&quot;f_desc&quot; placeholder=&quot;Rotary kiln at Currenta – Leverkusen&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;fld_f_desc&quot;><label>Project Description <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; placeholder=&quot;Rotary kiln at Currenta – Leverkusen&quot;></div>
       <div class=&quot;fld&quot;><label>Dear (saludo)</label><input id=&quot;f_dear&quot; placeholder=&quot;Robert&quot;></div>
     </div>
 
-    <div class=&quot;sec&quot;>2 · Alcance y ubicación</div>
+    <div class=&quot;sec&quot; id=&quot;sec-alcance&quot;>2 · Alcance y ubicación</div>
     <div class=&quot;row&quot;>
       <div class=&quot;fld&quot;><label>Tipo de trabajo (elige o escribe uno)</label>
         <input id=&quot;f_worktype&quot; list=&quot;dl_wt&quot; placeholder=&quot;maintenance&quot;>
@@ -150,7 +168,7 @@
     </div>
     <div class=&quot;hint&quot; id=&quot;scope_prev&quot;></div>
 
-    <div class=&quot;sec&quot;>3 · Fases (Steps), personal y precios</div>
+    <div class=&quot;sec&quot; id=&quot;sec-precios&quot;>3 · Fases (Steps), personal y precios</div>
     <div class=&quot;row stepsbar&quot;>
       <div class=&quot;fld&quot;><label>Nº de fases (steps)</label>
         <select id=&quot;f_steps&quot;><option value=&quot;1&quot;>1 step</option><option value=&quot;2&quot;>2 steps</option><option value=&quot;3&quot;>3 steps</option><option value=&quot;4&quot;>4 steps</option></select>
@@ -165,7 +183,7 @@
     <div class=&quot;hint&quot; id=&quot;mp_totals&quot; style=&quot;margin-top:8px;font-weight:700;color:var(--navy)&quot;></div>
     <div class=&quot;hint&quot;>Puedes renombrar los steps y los roles, borrar roles (✕) o añadir nuevos. Con 2 turnos se reparte el personal en <b>Day shift</b> / <b>Night shift</b> por fase.</div>
 
-    <div class=&quot;sec&quot;>4 · Secciones editables</div>
+    <div class=&quot;sec&quot; id=&quot;sec-docs&quot;>4 · Secciones editables</div>
     <div class=&quot;card&quot;>
       <div class=&quot;chead&quot;><input type=&quot;checkbox&quot; id=&quot;inc_relevant&quot; checked><span class=&quot;t&quot;>Relevant documents</span></div>
       <textarea id=&quot;f_reldocs&quot; style=&quot;min-height:60px&quot;></textarea>
@@ -182,13 +200,13 @@
       <div class=&quot;chead&quot;><input type=&quot;checkbox&quot; id=&quot;inc_costresp&quot; checked><span class=&quot;t&quot;>Cost Responsibility (proyectos internacionales)</span></div>
       <div class=&quot;hint&quot;>Editable. Escribe el responsable (DDE, DIB, ALTAC, N/A…) y el detalle. Sale en inglés dentro de Pricing.</div>
       <datalist id=&quot;dl_crc&quot;><option value=&quot;Flight Tickets&quot;></option><option value=&quot;Visa&quot;></option><option value=&quot;Accommodation&quot;></option><option value=&quot;General Documentation&quot;></option><option value=&quot;Local Transportation&quot;></option><option value=&quot;Other Expenses (Medical, etc.)&quot;></option><option value=&quot;Transport in Portugal&quot;></option></datalist>
-      <datalist id=&quot;dl_crr&quot;><option value=&quot;DIB&quot;></option><option value=&quot;DDE&quot;></option><option value=&quot;Client&quot;></option><option value=&quot;N/A&quot;></option></datalist>
+      <datalist id=&quot;dl_crr&quot;><option value=&quot;DIB&quot;></option><option value=&quot;DDE&quot;></option><option value=&quot;ALTAC&quot;></option><option value=&quot;Client&quot;></option><option value=&quot;N/A&quot;></option></datalist>
       <datalist id=&quot;dl_crd&quot;><option value=&quot;Complete Management&quot;></option><option value=&quot;Management and Payment&quot;></option><option value=&quot;(+10% Fee)&quot;></option><option value=&quot;Management and Payment (+10% Fee)&quot;></option><option value=&quot;N/A&quot;></option></datalist>
       <div id=&quot;cr_rows&quot; style=&quot;margin-top:10px&quot;></div>
       <button class=&quot;tinybtn&quot; id=&quot;cr_add&quot; type=&quot;button&quot;>+ Añadir concepto</button>
     </div>
 
-    <div class=&quot;sec&quot;>5 · Secciones legales fijas</div>
+    <div class=&quot;sec&quot; id=&quot;sec-legal&quot;>5 · Secciones legales fijas</div>
     <div class=&quot;legalgrid&quot; id=&quot;legalgrid&quot;>
       <label><input type=&quot;checkbox&quot; data-k=&quot;conf&quot; checked> Confidentiality &amp;amp; IP</label>
       <label><input type=&quot;checkbox&quot; data-k=&quot;vat&quot; checked> VAT/Customs</label>
@@ -241,7 +259,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function aesc(s){return String(s==null?&quot;&quot;:s).replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;).replace(/</g,&quot;&amp;lt;&quot;);}
 
   /* defaults */
-  (function(){var d=new Date();var p=function(n){return(n<10?&quot;0&quot;:&quot;&quot;)+n;};g(&quot;f_coverdate&quot;).value=p(d.getDate())+&quot;/&quot;+p(d.getMonth()+1)+&quot;/&quot;+d.getFullYear();})();
+  (function(){var d=new Date();var p=function(n){return(n<10?&quot;0&quot;:&quot;&quot;)+n;};g(&quot;f_coverdate&quot;).value=d.getFullYear()+&quot;-&quot;+p(d.getMonth()+1)+&quot;-&quot;+p(d.getDate());})();
   g(&quot;f_reldocs&quot;).value=(T.DEFAULTS.relevant||[]).join(&quot;\n&quot;);
   g(&quot;f_exclusions&quot;).value=(T.DEFAULTS.exclusions||[]).join(&quot;\n&quot;);
   g(&quot;f_payment&quot;).value=(T.DEFAULTS.payment||[]).join(&quot;\n&quot;);
@@ -271,9 +289,11 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     return wt+(u?(&quot; of &quot;+u):&quot;&quot;)+(l?(&quot; in &quot;+l):&quot;&quot;)+(c?(&quot;, &quot;+c):&quot;&quot;);}
   function updScope(){g(&quot;scope_prev&quot;).textContent=&quot;Frase: “…supply labour and supervision for the &quot;+scopeMid()+&quot; all in general accordance with your Enquiry.”&quot;;}
   [&quot;f_worktype&quot;,&quot;f_unit&quot;,&quot;f_loc&quot;,&quot;f_country&quot;].forEach(function(id){g(id).addEventListener(&quot;input&quot;,updScope);});
+  [&quot;f_ref&quot;,&quot;f_desc&quot;,&quot;f_att&quot;].forEach(function(id){g(id).addEventListener(&quot;input&quot;,function(){var fe=g(&quot;fld_&quot;+id);if(fe)fe.classList.remove(&quot;error&quot;);});});
 
   /* ---------------- MATRIX STATE ---------------- */
   var roleSeq=0;
+  var badAmounts=0;
   var state={roles:[],stepNames:[&quot;Step 1&quot;,&quot;Step 2&quot;,&quot;Step 3&quot;,&quot;Step 4&quot;],mp:{},data:{}};
   [&quot;Foreman&quot;,&quot;Team Leader&quot;,&quot;Mason&quot;,&quot;Helper&quot;].forEach(function(n){state.roles.push({id:++roleSeq,name:n});});
   function nSteps(){return parseInt(g(&quot;f_steps&quot;).value);}
@@ -342,7 +362,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
   /* ---------------- DOCX HELPERS ---------------- */
   function fdate(val){if(!val)return&quot;&quot;;if(val.indexOf(&quot;-&quot;)>0){var p=val.split(&quot;-&quot;);return p[2]+&quot;/&quot;+p[1]+&quot;/&quot;+p[0];}return val;}
-  function parseEuro(s){s=String(s||&quot;&quot;).replace(/\s|€/g,&quot;&quot;).replace(/\./g,&quot;&quot;).replace(&quot;,&quot;,&quot;.&quot;);var n=parseFloat(s);return isNaN(n)?0:n;}
+  function parseEuro(s,el){var raw=String(s||&quot;&quot;).trim();var t=raw.replace(/\s|€/g,&quot;&quot;).replace(/\./g,&quot;&quot;).replace(&quot;,&quot;,&quot;.&quot;);var n=parseFloat(t);if(isNaN(n)){if(raw){badAmounts++;if(el)el.classList.add(&quot;badnum&quot;);}else if(el)el.classList.remove(&quot;badnum&quot;);return 0;}if(el)el.classList.remove(&quot;badnum&quot;);return n;}
   function fmtEuro(n){return n.toLocaleString(&quot;de-DE&quot;,{minimumFractionDigits:2,maximumFractionDigits:2});}
   function tplFill(tpl,val){return tpl.split(&quot;{{TXT}}&quot;).join(xesc(val));}
   function enclosingP(xml,pos){var a=xml.lastIndexOf(&quot;<w:p &quot;,pos),b=xml.lastIndexOf(&quot;<w:p>&quot;,pos);var st=Math.max(a,b);var en=xml.indexOf(&quot;</w:p>&quot;,pos);en=(en<0?xml.length:en+6);return[st,en];}
@@ -398,7 +418,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     g(&quot;wrap_shifttype&quot;).style.display=twoShifts()?&quot;none&quot;:&quot;&quot;;
     renderMatrix();updScope();
   }
-  function autosave(){try{localStorage.setItem(SKEY,JSON.stringify(collectState()));g(&quot;autosave_hint&quot;).textContent=&quot;Borrador guardado automáticamente en este equipo · &quot;+new Date().toLocaleTimeString();}catch(e){}}
+  function autosave(){try{localStorage.setItem(SKEY,JSON.stringify(collectState()));var ah=g(&quot;autosave_hint&quot;);ah.textContent=&quot;Borrador guardado automáticamente en este equipo · &quot;+new Date().toLocaleTimeString();ah.classList.remove(&quot;flash&quot;);void ah.offsetWidth;ah.classList.add(&quot;flash&quot;);setTimeout(function(){ah.classList.remove(&quot;flash&quot;);},800);}catch(e){}}
   document.addEventListener(&quot;input&quot;,autosave);
   document.addEventListener(&quot;change&quot;,autosave);
   g(&quot;btn_savejson&quot;).onclick=function(){var blob=new Blob([JSON.stringify(collectState(),null,2)],{type:&quot;application/json&quot;});var a=document.createElement(&quot;a&quot;);a.href=URL.createObjectURL(blob);a.download=((g(&quot;f_ref&quot;).value.trim()||&quot;borrador&quot;).replace(/[^\w.-]+/g,&quot;_&quot;))+&quot;_oferta.json&quot;;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);};
@@ -406,8 +426,18 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
   g(&quot;btn_gen&quot;).onclick=function(){
     captureMatrix();
+    badAmounts=0;
     var n=nSteps(),two=twoShifts();
     var miss=[];if(!v(&quot;f_ref&quot;))miss.push(&quot;Ref&quot;);if(!v(&quot;f_desc&quot;))miss.push(&quot;Description&quot;);if(!v(&quot;f_att&quot;))miss.push(&quot;Attention&quot;);
+    var missIds={Ref:&quot;f_ref&quot;,Description:&quot;f_desc&quot;,Attention:&quot;f_att&quot;};
+    [&quot;fld_f_ref&quot;,&quot;fld_f_desc&quot;,&quot;fld_f_att&quot;].forEach(function(id){var fe=g(id);if(fe)fe.classList.remove(&quot;error&quot;);});
+    if(miss.length){
+      miss.forEach(function(m){var fe=g(&quot;fld_&quot;+missIds[m]);if(fe)fe.classList.add(&quot;error&quot;);});
+      msg(&quot;err&quot;,&quot;Faltan campos obligatorios: &quot;+miss.join(&quot;, &quot;)+&quot;. Complétalos para generar la oferta.&quot;);
+      var first=g(missIds[miss[0]]);
+      if(first)first.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;center&quot;});
+      return;
+    }
 
     JSZip.loadAsync(Uint8Array.from(atob(T.B64TPL),function(c){return c.charCodeAt(0);})).then(function(zip){
       return zip.file(&quot;word/document.xml&quot;).async(&quot;string&quot;).then(function(xml){
@@ -462,7 +492,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
           xml=fillBlock(xml,&quot;@@LUMP@@&quot;,tplFill(T.TPLS.lump,mv(&quot;lump&quot;,1)));
         }else{
           var lines=&quot;&quot;,tot=0;
-          for(var s=1;s<=n;s++){lines+=priceLineXml(&quot;Lump-sum price &quot;+stepName(s), mv(&quot;lump&quot;,s)+&quot; €&quot;, true);tot+=parseEuro(mv(&quot;lump&quot;,s));}
+          for(var s=1;s<=n;s++){var lc=document.querySelector('#matrix .in-d[data-id=&quot;lump&quot;][data-s=&quot;'+s+'&quot;]');lines+=priceLineXml(&quot;Lump-sum price &quot;+stepName(s), mv(&quot;lump&quot;,s)+&quot; €&quot;, true);tot+=parseEuro(mv(&quot;lump&quot;,s),lc);}
           lines+=priceLineXml(&quot;Total&quot;, fmtEuro(tot)+&quot; €&quot;, true);
           xml=fillBlock(xml,&quot;@@LUMP@@&quot;,lines);
         }
@@ -483,7 +513,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
         xml=tok(xml,&quot;TITLE1&quot;,v(&quot;f_t1&quot;)||v(&quot;f_desc&quot;));
         xml=tok(xml,&quot;TITLE2&quot;,v(&quot;f_t2&quot;));
-        xml=tok(xml,&quot;COVERDATE&quot;,v(&quot;f_coverdate&quot;));
+        xml=tok(xml,&quot;COVERDATE&quot;,fdate(v(&quot;f_coverdate&quot;)));
         xml=tok(xml,&quot;REF&quot;,v(&quot;f_ref&quot;));
         xml=tok(xml,&quot;REV&quot;,v(&quot;f_rev&quot;)||&quot;0&quot;);
         xml=tok(xml,&quot;DESC&quot;,v(&quot;f_desc&quot;));
@@ -501,11 +531,28 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       var a=document.createElement(&quot;a&quot;);a.href=URL.createObjectURL(blob);
       a.download=(v(&quot;f_ref&quot;)||&quot;Offer&quot;).replace(/[^\w.-]+/g,&quot;_&quot;)+&quot;_Quotation.docx&quot;;
       document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1500);
-      msg(&quot;ok&quot;,miss.length?(&quot;Generado. Revisa: faltaba &quot;+miss.join(&quot;, &quot;)+&quot;.&quot;):&quot;Oferta .docx generada correctamente.&quot;);
+      msg(&quot;ok&quot;,&quot;Oferta .docx generada correctamente.&quot;+(badAmounts?(&quot; Aviso: &quot;+badAmounts+&quot; importe(s) no reconocido(s) en la matriz de precios, revisa el formato.&quot;):&quot;&quot;));
     }).catch(function(e){msg(&quot;err&quot;,&quot;Error: &quot;+e.message);});
   };
   try{var _saved=localStorage.getItem(SKEY);if(_saved){applyState(JSON.parse(_saved));g(&quot;autosave_hint&quot;).textContent=&quot;Borrador recuperado automáticamente.&quot;;}}catch(e){}
   g(&quot;btn_reset&quot;).onclick=function(){if(confirm(&quot;¿Limpiar todo? (borra también el borrador autoguardado)&quot;)){try{localStorage.removeItem(SKEY);}catch(e){}location.reload();}};
+
+  /* ---------------- SECTION NAV ---------------- */
+  (function(){
+    var links=Array.prototype.slice.call(document.querySelectorAll(&quot;.secnav a&quot;));
+    var secs=[&quot;sec-portada&quot;,&quot;sec-alcance&quot;,&quot;sec-precios&quot;,&quot;sec-docs&quot;,&quot;sec-legal&quot;].map(function(id){return g(id);}).filter(Boolean);
+    links.forEach(function(a){a.addEventListener(&quot;click&quot;,function(e){e.preventDefault();var t=g(a.dataset.sec);if(t)t.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});});});
+    if(&quot;IntersectionObserver&quot; in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          var link=document.querySelector('.secnav a[data-sec=&quot;'+en.target.id+'&quot;]');
+          if(!link)return;
+          if(en.isIntersecting){links.forEach(function(l){l.classList.remove(&quot;active&quot;);});link.classList.add(&quot;active&quot;);}
+        });
+      },{rootMargin:&quot;-20% 0px -70% 0px&quot;,threshold:0});
+      secs.forEach(function(s){io.observe(s);});
+    }
+  })();
 })();
 </script>
 </body>
@@ -565,6 +612,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   .stp button{width:32px;height:32px;padding:0;font-size:18px;line-height:1;border:1px solid var(--border2);background:var(--g1);color:var(--navy);border-radius:7px;cursor:pointer;font-weight:600}
   .stp button:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
   .cnt{min-width:28px;text-align:center;font-weight:700;font-size:15px;color:var(--navy)}
+  .team-total{font-size:12.5px;font-weight:700;color:var(--ink2);margin-top:8px;text-align:right}
   .rdo{display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer}
   .rdo input{width:auto;accent-color:var(--blue)}
   .recip{background:var(--g1);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
@@ -586,9 +634,32 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   .copybtn:hover{border-color:var(--blue2)}
   .note{font-size:12.5px;color:#8a93a8;margin-top:10px}
   footer{text-align:center;font-size:11.5px;color:#9aa3b8;padding:18px;letter-spacing:.03em}
+  .warn{font-size:13px;margin-top:15px;padding:12px 14px;border-radius:6px;display:none;text-align:center}
+  .warn.ok{color:#1c6b4a;background:#e8f8f0;border:1px solid #bfe8d5}
+  .warn.err{color:#8a2b2b;background:#fdeaea;border:1px solid #f4c7c7}
+  .req{color:#c0392b;font-weight:700}
+  #prl_autosave.flash{animation:flashHintPRL .8s ease}
+  @keyframes flashHintPRL{0%{background:#d7ebff}100%{background:transparent}}
+  html{scroll-behavior:smooth}
+  .secnav{position:fixed;left:14px;top:90px;z-index:5;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 4px;display:flex;flex-direction:column;gap:2px;box-shadow:0 8px 24px rgba(8,36,110,.10);font-size:12.5px;max-width:150px}
+  .secnav a{color:var(--ink2);text-decoration:none;padding:7px 10px;border-radius:6px;font-weight:600}
+  .secnav a:hover{background:var(--g2)}
+  .secnav a.active{color:#fff;background:var(--blue)}
+  @media (max-width:1300px){.secnav{display:none}}
 </style>
 </head>
 <body>
+<nav class=&quot;secnav&quot; id=&quot;secnav&quot;>
+  <a href=&quot;#sec-dir&quot; data-sec=&quot;sec-dir&quot;>Dirección</a>
+  <a href=&quot;#sec-per&quot; data-sec=&quot;sec-per&quot;>Personal</a>
+  <a href=&quot;#sec-seg&quot; data-sec=&quot;sec-seg&quot;>Seguridad</a>
+  <a href=&quot;#sec-plan&quot; data-sec=&quot;sec-plan&quot;>Planning</a>
+  <a href=&quot;#sec-jor&quot; data-sec=&quot;sec-jor&quot;>Jornada</a>
+  <a href=&quot;#eqcard&quot; data-sec=&quot;eqcard&quot;>Equipo</a>
+  <a href=&quot;#sec-trab&quot; data-sec=&quot;sec-trab&quot;>Trabajos</a>
+  <a href=&quot;#sec-not&quot; data-sec=&quot;sec-not&quot;>Notas</a>
+  <a href=&quot;#sec-cierre&quot; data-sec=&quot;sec-cierre&quot;>Cierre</a>
+</nav>
 <div class=&quot;wrap&quot;>
   <header>
     <div class=&quot;brand&quot;>
@@ -602,8 +673,8 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   <div class=&quot;body&quot;>
     <div class=&quot;sec&quot;>Asunto del proyecto</div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Código de proyecto</label><input id=&quot;f_codigo&quot; type=&quot;text&quot;></div>
-      <div class=&quot;fld&quot;><label>Descripción</label><input id=&quot;f_desc&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Código de proyecto <span class=&quot;req&quot;>*</span></label><input id=&quot;f_codigo&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Descripción <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; type=&quot;text&quot;></div>
     </div>
 
     <div class=&quot;sec&quot;>Cliente final</div>
@@ -620,6 +691,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
         <div class=&quot;fld&quot;><label>Contrato</label><input id=&quot;i_contrato&quot; type=&quot;text&quot;></div>
         <div class=&quot;fld&quot;><label>Jefe de proyecto DIB</label><input id=&quot;i_jppdib&quot; type=&quot;text&quot;></div>
       </div>
+      <div class=&quot;fld&quot;><label>Email JP DIB (opcional — si se rellena, se añade como destinatario)</label><input id=&quot;i_jppdib_email&quot; type=&quot;email&quot;></div>
     </div>
 
     <div class=&quot;sec&quot;>Destinatarios <span class=&quot;muted&quot;>— fijos</span></div>
@@ -636,33 +708,34 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
     <div class=&quot;sec&quot;>Secciones <span class=&quot;muted&quot;>— marca las que quieras incluir</span></div>
 
-    <div class=&quot;scard&quot; data-k=&quot;dir&quot;>
+    <div class=&quot;scard&quot; data-k=&quot;dir&quot; id=&quot;sec-dir&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;DIRECCIÓN PLANTA&quot;></div>
       <div class=&quot;fld&quot;><label>Dirección</label><textarea id=&quot;dir_ta&quot;></textarea></div>
       <div class=&quot;fld&quot;><label>Enlace Google Maps (opcional)</label><input id=&quot;dir_maps&quot; type=&quot;text&quot;></div>
       <div class=&quot;hint&quot;>La primera línea (nombre de la planta) se usa en la introducción.</div>
     </div>
 
-    <div class=&quot;scard&quot; data-k=&quot;per&quot;>
+    <div class=&quot;scard&quot; data-k=&quot;per&quot; id=&quot;sec-per&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;PERSONAL&quot;></div>
       <div class=&quot;subt&quot;>Project Manager</div>
       <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;pm_name&quot; type=&quot;text&quot;></div>
       <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;pm_tel&quot; type=&quot;text&quot;></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;pm_mov&quot; type=&quot;text&quot;></div></div>
+      <div class=&quot;fld&quot;><label>Email</label><input id=&quot;pm_email&quot; type=&quot;email&quot;></div>
       <div class=&quot;subt&quot;>Jefe de obra</div>
       <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;jo_name&quot; type=&quot;text&quot;></div>
       <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;jo_tel&quot; type=&quot;text&quot;></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;jo_mov&quot; type=&quot;text&quot;></div></div>
       <div class=&quot;hint&quot;>Rellena el que tengas; en el correo solo aparece el contacto con nombre.</div>
     </div>
 
-    <div class=&quot;scard off&quot; data-k=&quot;seg&quot;><div class=&quot;shead&quot;><input type=&quot;checkbox&quot;><input class=&quot;shdr&quot; value=&quot;REQUISITOS DE SEGURIDAD&quot;></div><textarea id=&quot;seg_ta&quot;></textarea></div>
+    <div class=&quot;scard off&quot; data-k=&quot;seg&quot; id=&quot;sec-seg&quot;><div class=&quot;shead&quot;><input type=&quot;checkbox&quot;><input class=&quot;shdr&quot; value=&quot;REQUISITOS DE SEGURIDAD&quot;></div><textarea id=&quot;seg_ta&quot;></textarea></div>
 
-    <div class=&quot;scard&quot; data-k=&quot;plan&quot;>
+    <div class=&quot;scard&quot; data-k=&quot;plan&quot; id=&quot;sec-plan&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;PLANNING&quot;></div>
       <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Inicio del periodo de ejecución</label><input type=&quot;date&quot; id=&quot;d_ini&quot;></div><div class=&quot;fld&quot;><label>Fin</label><input type=&quot;date&quot; id=&quot;d_fin&quot;></div></div>
       <div class=&quot;fld&quot;><label>Nota adicional (opcional: fases, rotación…)</label><textarea id=&quot;plan_extra&quot; style=&quot;min-height:50px&quot;></textarea></div>
     </div>
 
-    <div class=&quot;scard&quot; data-k=&quot;jor&quot;>
+    <div class=&quot;scard&quot; data-k=&quot;jor&quot; id=&quot;sec-jor&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;JORNADA DE TRABAJO&quot;></div>
       <div class=&quot;shiftpick&quot;>
         <label class=&quot;rdo&quot;><input type=&quot;checkbox&quot; class=&quot;turno&quot; value=&quot;dia&quot; checked> Turno día</label>
@@ -685,6 +758,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Jefe de equipo</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;dia_lead&quot;>−</button><span class=&quot;cnt&quot; id=&quot;dia_lead&quot;>0</span><button class=&quot;up&quot; data-target=&quot;dia_lead&quot;>+</button></div></div>
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Oficial</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;dia_ofi&quot;>−</button><span class=&quot;cnt&quot; id=&quot;dia_ofi&quot;>0</span><button class=&quot;up&quot; data-target=&quot;dia_ofi&quot;>+</button></div></div>
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Ayudante</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;dia_ayu&quot;>−</button><span class=&quot;cnt&quot; id=&quot;dia_ayu&quot;>0</span><button class=&quot;up&quot; data-target=&quot;dia_ayu&quot;>+</button></div></div>
+        <div class=&quot;team-total&quot; id=&quot;tot-dia&quot;>Total: 0 personas</div>
         <textarea id=&quot;cmt_dia&quot; style=&quot;min-height:50px;margin-top:8px&quot;></textarea>
       </div>
 
@@ -694,6 +768,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Jefe de equipo</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;tarde_lead&quot;>−</button><span class=&quot;cnt&quot; id=&quot;tarde_lead&quot;>0</span><button class=&quot;up&quot; data-target=&quot;tarde_lead&quot;>+</button></div></div>
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Oficial</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;tarde_ofi&quot;>−</button><span class=&quot;cnt&quot; id=&quot;tarde_ofi&quot;>0</span><button class=&quot;up&quot; data-target=&quot;tarde_ofi&quot;>+</button></div></div>
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Ayudante</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;tarde_ayu&quot;>−</button><span class=&quot;cnt&quot; id=&quot;tarde_ayu&quot;>0</span><button class=&quot;up&quot; data-target=&quot;tarde_ayu&quot;>+</button></div></div>
+        <div class=&quot;team-total&quot; id=&quot;tot-tarde&quot;>Total: 0 personas</div>
         <textarea id=&quot;cmt_tarde&quot; style=&quot;min-height:50px;margin-top:8px&quot;></textarea>
       </div>
 
@@ -703,11 +778,12 @@ https://github.com/nodeca/pako/blob/main/LICENSE
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Jefe de equipo</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;noche_lead&quot;>−</button><span class=&quot;cnt&quot; id=&quot;noche_lead&quot;>0</span><button class=&quot;up&quot; data-target=&quot;noche_lead&quot;>+</button></div></div>
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Oficial</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;noche_ofi&quot;>−</button><span class=&quot;cnt&quot; id=&quot;noche_ofi&quot;>0</span><button class=&quot;up&quot; data-target=&quot;noche_ofi&quot;>+</button></div></div>
         <div class=&quot;strow&quot;><span class=&quot;srl&quot;>Ayudante</span><div class=&quot;stp&quot;><button class=&quot;dn&quot; data-target=&quot;noche_ayu&quot;>−</button><span class=&quot;cnt&quot; id=&quot;noche_ayu&quot;>0</span><button class=&quot;up&quot; data-target=&quot;noche_ayu&quot;>+</button></div></div>
+        <div class=&quot;team-total&quot; id=&quot;tot-noche&quot;>Total: 0 personas</div>
         <textarea id=&quot;cmt_noche&quot; style=&quot;min-height:50px;margin-top:8px&quot;></textarea>
       </div>
     </div>
 
-    <div class=&quot;scard&quot; data-k=&quot;trab&quot;><div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;DESCRIPCIÓN DE LOS TRABAJOS&quot;></div><textarea id=&quot;trab_ta&quot;></textarea></div>
+    <div class=&quot;scard&quot; data-k=&quot;trab&quot; id=&quot;sec-trab&quot;><div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;DESCRIPCIÓN DE LOS TRABAJOS&quot;></div><textarea id=&quot;trab_ta&quot;></textarea></div>
     <div class=&quot;scard&quot; data-k=&quot;tareas&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><span style=&quot;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--navy)&quot;>Tipos de tareas y formación</span></div>
       <div class=&quot;row&quot; style=&quot;align-items:start&quot;>
@@ -728,15 +804,16 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       <div class=&quot;hint&quot;>Se incluyen en el correo con sus títulos resaltados. &quot;No definido&quot;/&quot;Ninguno&quot; no aparecen.</div>
     </div>
 
-    <div class=&quot;scard off&quot; data-k=&quot;not&quot;><div class=&quot;shead&quot;><input type=&quot;checkbox&quot;><input class=&quot;shdr&quot; value=&quot;NOTAS&quot;></div><textarea id=&quot;not_ta&quot;></textarea></div>
+    <div class=&quot;scard off&quot; data-k=&quot;not&quot; id=&quot;sec-not&quot;><div class=&quot;shead&quot;><input type=&quot;checkbox&quot;><input class=&quot;shdr&quot; value=&quot;NOTAS&quot;></div><textarea id=&quot;not_ta&quot;></textarea></div>
 
-    <div class=&quot;sec&quot;>Cierre</div>
+    <div class=&quot;sec&quot; id=&quot;sec-cierre&quot;>Cierre</div>
     <div class=&quot;fld&quot;><input id=&quot;f_cierre&quot; list=&quot;dl_c&quot; type=&quot;text&quot;><datalist id=&quot;dl_c&quot;><option value=&quot;Un saludo,&quot;><option value=&quot;Un abrazo,&quot;><option value=&quot;Saludos,&quot;><option value=&quot;Mit freundlichen Grüßen,&quot;></datalist></div>
 
     <div class=&quot;btns&quot;>
       <button class=&quot;act primary&quot; id=&quot;btn_gen&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M4 4h16v16H4z&quot;/><path d=&quot;M8 9h8M8 13h8M8 17h5&quot;/></svg> Generar correo</button>
       <button class=&quot;act ghost&quot; id=&quot;btn_reset&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M4 4v6h6&quot;/><path d=&quot;M20 20v-6h-6&quot;/><path d=&quot;M5 13a7 7 0 0 0 13 2M19 11a7 7 0 0 0-13-2&quot;/></svg> Limpiar campos</button>
     </div>
+    <div id=&quot;msg&quot; class=&quot;warn&quot;></div>
 
     <div id=&quot;editbox&quot;>
       <div class=&quot;sec&quot; style=&quot;margin-top:4px&quot;>Correo (editable)</div>
@@ -775,16 +852,23 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
   var SEC={dir:{on:true,h:&quot;DIRECCIÓN PLANTA&quot;},per:{on:true,h:&quot;PERSONAL&quot;},seg:{on:false,h:&quot;REQUISITOS DE SEGURIDAD&quot;},plan:{on:true,h:&quot;PLANNING&quot;},jor:{on:true,h:&quot;JORNADA DE TRABAJO&quot;},eq:{on:true,h:&quot;EQUIPO DE TRABAJO&quot;},trab:{on:true,h:&quot;DESCRIPCIÓN DE LOS TRABAJOS&quot;},not:{on:false,h:&quot;NOTAS&quot;}};
 
-  var EX={codigo:&quot;BIPR26-00084&quot;,desc:&quot;Reparación POX Reactor BP Gelsenkirchen 2026&quot;,saludo:&quot;Buenas tardes,&quot;,cierre:&quot;Un saludo,&quot;,pm_name:&quot;Joachim Schubert&quot;,pm_tel:&quot;+49 2102 938 309&quot;,pm_mov:&quot;+49 175 5314909&quot;,jo_name:&quot;Thomas Stecker&quot;,jo_tel:&quot;+49 172 5617991&quot;,dir:&quot;MVA Hagen\nAm Pfannenofen 39\nD-58097 Hagen&quot;,maps:&quot;https://maps.app.goo.gl/...&quot;,jor:&quot;• 50 horas por semana\n• De lunes a viernes\n• Se incluye rotación debido a duración de obra. Ver planning adjunto.&quot;,seg:&quot;1. EPI completo obligatorio (ropa ignífuga, casco, gafas, botas clase 3).\n2. Detector personal de H₂S y capucha de escape: provistos por el cliente.\n3. Formación de seguridad obligatoria (con test).&quot;,trab:&quot;Descripción general de los trabajos.\n\nAlcance específico:\n• Punto 1\n• Punto 2&quot;,cmt_dia:&quot;– Incluye 1 con formación de carretillero\n(El Encargado debe hablar inglés)&quot;};
+  var EX={codigo:&quot;BIPR26-00084&quot;,desc:&quot;Reparación POX Reactor BP Gelsenkirchen 2026&quot;,saludo:&quot;Buenas tardes,&quot;,cierre:&quot;Un saludo,&quot;,pm_name:&quot;Joachim Schubert&quot;,pm_tel:&quot;+49 2102 938 309&quot;,pm_mov:&quot;+49 175 5314909&quot;,pm_email:&quot;joachim.schubert@cliente.com&quot;,jo_name:&quot;Thomas Stecker&quot;,jo_tel:&quot;+49 172 5617991&quot;,dir:&quot;MVA Hagen\nAm Pfannenofen 39\nD-58097 Hagen&quot;,maps:&quot;https://maps.app.goo.gl/...&quot;,jor:&quot;• 50 horas por semana\n• De lunes a viernes\n• Se incluye rotación debido a duración de obra. Ver planning adjunto.&quot;,seg:&quot;1. EPI completo obligatorio (ropa ignífuga, casco, gafas, botas clase 3).\n2. Detector personal de H₂S y capucha de escape: provistos por el cliente.\n3. Formación de seguridad obligatoria (con test).&quot;,trab:&quot;Descripción general de los trabajos.\n\nAlcance específico:\n• Punto 1\n• Punto 2&quot;,cmt_dia:&quot;– Incluye 1 con formación de carretillero\n(El Encargado debe hablar inglés)&quot;};
 
+  function effectiveTO(){
+    var extra=[];
+    var emEl=g(&quot;i_jppdib_email&quot;);
+    var em=emEl?emEl.value.trim():&quot;&quot;;
+    if(em){var nmEl=g(&quot;i_jppdib&quot;);extra.push({n:(nmEl&amp;&amp;nmEl.value.trim())||&quot;JP DIB&quot;,e:em});}
+    return TO.concat(extra);
+  }
   function renderChips(){
-    g(&quot;to_chips&quot;).innerHTML=TO.map(function(p){return '<span class=&quot;chip&quot;>'+p.n+'</span>';}).join(&quot;&quot;);
+    g(&quot;to_chips&quot;).innerHTML=effectiveTO().map(function(p){return '<span class=&quot;chip&quot;>'+p.n+'</span>';}).join(&quot;&quot;);
     g(&quot;cc_chips&quot;).innerHTML=CC.map(function(p){return '<span class=&quot;chip cc&quot;>'+p.n+'</span>';}).join(&quot;&quot;);
   }
   function setPlaceholders(){
     g(&quot;f_codigo&quot;).placeholder=EX.codigo;g(&quot;f_desc&quot;).placeholder=EX.desc;g(&quot;f_saludo&quot;).placeholder=EX.saludo;g(&quot;f_cierre&quot;).placeholder=EX.cierre;
-    g(&quot;i_contrato&quot;).placeholder=&quot;Nº de contrato&quot;;g(&quot;i_jppdib&quot;).placeholder=&quot;Nombre&quot;;g(&quot;i_cliente_otro&quot;).placeholder=&quot;Nombre del cliente&quot;;
-    g(&quot;pm_name&quot;).placeholder=EX.pm_name;g(&quot;pm_tel&quot;).placeholder=EX.pm_tel;g(&quot;pm_mov&quot;).placeholder=EX.pm_mov;
+    g(&quot;i_contrato&quot;).placeholder=&quot;Nº de contrato&quot;;g(&quot;i_jppdib&quot;).placeholder=&quot;Nombre&quot;;g(&quot;i_jppdib_email&quot;).placeholder=&quot;nombre.apellido@dominion-global.com&quot;;g(&quot;i_cliente_otro&quot;).placeholder=&quot;Nombre del cliente&quot;;
+    g(&quot;pm_name&quot;).placeholder=EX.pm_name;g(&quot;pm_tel&quot;).placeholder=EX.pm_tel;g(&quot;pm_mov&quot;).placeholder=EX.pm_mov;g(&quot;pm_email&quot;).placeholder=EX.pm_email;
     g(&quot;jo_name&quot;).placeholder=EX.jo_name;g(&quot;jo_tel&quot;).placeholder=EX.jo_tel;g(&quot;jo_mov&quot;).placeholder=&quot;(opcional)&quot;;
     g(&quot;dir_ta&quot;).placeholder=EX.dir;g(&quot;dir_maps&quot;).placeholder=EX.maps;
     g(&quot;jor_hor_dia&quot;).placeholder=&quot;06:00 – 14:00&quot;;g(&quot;jor_hor_tarde&quot;).placeholder=&quot;14:00 – 22:00&quot;;g(&quot;jor_hor_noche&quot;).placeholder=&quot;22:00 – 06:00&quot;;g(&quot;jor_ta&quot;).placeholder=EX.jor;
@@ -808,6 +892,8 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function pal(n){return n===1?&quot; trabajador&quot;:&quot; trabajadores&quot;;}
 
   function blockText(pfx){var lines=[],total=0;roles.forEach(function(r){var n=parseInt(g(pfx+&quot;_&quot;+r[0]).textContent,10)||0;if(n>0){total+=n;lines.push(&quot;• &quot;+n+&quot; &quot;+(n===1?r[1]:r[2]));}});return {lines:lines,total:total};}
+  function updTeamTotal(k){var sum=0;roles.forEach(function(r){var e=g(k+&quot;_&quot;+r[0]);sum+=parseInt(e&amp;&amp;e.textContent,10)||0;});var el=g(&quot;tot-&quot;+k);if(el)el.textContent=&quot;Total: &quot;+sum+&quot; personas&quot;;}
+  window.updTeamTotal=updTeamTotal;
   function equipoText(){
     var blocks=[],grand=0;
     shiftDefs.forEach(function(d){if(!shiftChecked(d[0]))return;var bt=blockText(d[0]);blocks.push({label:d[1],bt:bt,cmt:g(&quot;cmt_&quot;+d[0]).value.trim()});grand+=bt.total;});
@@ -817,7 +903,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     var parts=withData.map(function(b){var s=b.label+&quot; — &quot;+b.bt.total+pal(b.bt.total);if(b.bt.lines.length)s+=&quot;\n&quot;+b.bt.lines.join(&quot;\n&quot;);if(b.cmt)s+=&quot;\n&quot;+b.cmt;return s;});
     return parts.join(&quot;\n\n&quot;)+&quot;\n\nTotal: &quot;+grand+&quot; trabajadores&quot;;
   }
-  function contactBlock(pfx,label){var name=g(pfx+&quot;_name&quot;).value.trim();if(!name)return &quot;&quot;;var L=[label+&quot;: &quot;+name];var t=g(pfx+&quot;_tel&quot;).value.trim();if(t)L.push(&quot;Teléfono: &quot;+t);var m=g(pfx+&quot;_mov&quot;).value.trim();if(m)L.push(&quot;Móvil: &quot;+m);return L.join(&quot;\n&quot;);}
+  function contactBlock(pfx,label){var name=g(pfx+&quot;_name&quot;).value.trim();if(!name)return &quot;&quot;;var L=[label+&quot;: &quot;+name];var t=g(pfx+&quot;_tel&quot;).value.trim();if(t)L.push(&quot;Teléfono: &quot;+t);var m=g(pfx+&quot;_mov&quot;).value.trim();if(m)L.push(&quot;Móvil: &quot;+m);var eEl=g(pfx+&quot;_email&quot;);if(eEl){var em=eEl.value.trim();if(em)L.push(&quot;Email: &quot;+em);}return L.join(&quot;\n&quot;);}
   function personalText(){var b=[];var pm=contactBlock(&quot;pm&quot;,&quot;Project Manager DOMINION&quot;);if(pm)b.push(pm);var jo=contactBlock(&quot;jo&quot;,&quot;Jefe de obra&quot;);if(jo)b.push(jo);return b.join(&quot;\n\n&quot;);}
   function planText(){var ini=fmt(g(&quot;d_ini&quot;).value),fin=fmt(g(&quot;d_fin&quot;).value),out=&quot;&quot;;if(ini||fin)out=&quot;Periodo de ejecución: &quot;+ini+&quot; – &quot;+fin;var ex=g(&quot;plan_extra&quot;).value.trim();if(ex)out+=(out?&quot;\n&quot;:&quot;&quot;)+ex;return out;}
   function jorText(){
@@ -864,13 +950,14 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   }
   function computeHeaderSet(){headerSet={};cards.forEach(function(c){if(chk(c).checked){var h=hdr(c);if(h)headerSet[h.value.trim()]=1;}});[&quot;CLIENTE FINAL&quot;,&quot;TIPOS DE TAREAS&quot;,&quot;FORMACIÓN ESPECÍFICA&quot;].forEach(function(x){headerSet[x]=1;});}
   function renderPreview(){g(&quot;pv_render&quot;).innerHTML=bodyToHtml(g(&quot;ed_body&quot;).value);}
+  function msg(cls,txt){var m=g(&quot;msg&quot;);if(!m)return;m.className=&quot;warn &quot;+cls;m.textContent=txt;m.style.display=&quot;block&quot;;}
 
   function clearAll(){
     [&quot;f_codigo&quot;,&quot;f_desc&quot;,&quot;f_saludo&quot;,&quot;f_cierre&quot;,&quot;i_contrato&quot;,&quot;i_jppdib&quot;,&quot;i_cliente_otro&quot;,&quot;pm_name&quot;,&quot;pm_tel&quot;,&quot;pm_mov&quot;,&quot;jo_name&quot;,&quot;jo_tel&quot;,&quot;jo_mov&quot;,&quot;dir_ta&quot;,&quot;dir_maps&quot;,&quot;jor_hor_dia&quot;,&quot;jor_hor_tarde&quot;,&quot;jor_hor_noche&quot;,&quot;jor_ta&quot;,&quot;seg_ta&quot;,&quot;trab_ta&quot;,&quot;not_ta&quot;,&quot;plan_extra&quot;,&quot;cmt_dia&quot;,&quot;cmt_tarde&quot;,&quot;cmt_noche&quot;,&quot;d_ini&quot;,&quot;d_fin&quot;].forEach(function(id){g(id).value=&quot;&quot;;});
     g(&quot;i_cliente&quot;).selectedIndex=0;toggleOtro();
     document.querySelectorAll(&quot;.taskin&quot;).forEach(function(s){s.selectedIndex=0;});
     document.querySelectorAll('.turno').forEach(function(c){c.checked=(c.value===&quot;dia&quot;);});
-    shiftDefs.forEach(function(d){roles.forEach(function(r){g(d[0]+&quot;_&quot;+r[0]).textContent=&quot;0&quot;;});});
+    shiftDefs.forEach(function(d){roles.forEach(function(r){g(d[0]+&quot;_&quot;+r[0]).textContent=&quot;0&quot;;});updTeamTotal(d[0]);});
     for(var k in SEC){var c=card(k);chk(c).checked=SEC[k].on;hdr(c).value=SEC[k].h;}
     chk(card(&quot;tareas&quot;)).checked=true;
     refreshDim();refreshShift();g(&quot;f_intro&quot;).value=buildIntro();g(&quot;editbox&quot;).style.display=&quot;none&quot;;
@@ -878,25 +965,32 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
   renderChips();setPlaceholders();
   [&quot;f_codigo&quot;,&quot;f_desc&quot;,&quot;dir_ta&quot;].forEach(function(id){g(id).addEventListener(&quot;input&quot;,function(){g(&quot;f_intro&quot;).value=buildIntro();});});
+  [&quot;i_jppdib&quot;,&quot;i_jppdib_email&quot;].forEach(function(id){g(id).addEventListener(&quot;input&quot;,renderChips);});
   cards.forEach(function(c){chk(c).addEventListener(&quot;change&quot;,refreshDim);});
   document.querySelectorAll('.turno').forEach(function(r){r.addEventListener(&quot;change&quot;,refreshShift);});
   g(&quot;i_cliente&quot;).addEventListener(&quot;change&quot;,toggleOtro);
-  g(&quot;eqcard&quot;).addEventListener(&quot;click&quot;,function(e){var b=e.target.closest(&quot;button.up,button.dn&quot;);if(!b)return;var s=g(b.dataset.target);var v=(parseInt(s.textContent,10)||0)+(b.classList.contains(&quot;up&quot;)?1:-1);if(v<0)v=0;s.textContent=v;});
+  g(&quot;eqcard&quot;).addEventListener(&quot;click&quot;,function(e){var b=e.target.closest(&quot;button.up,button.dn&quot;);if(!b)return;var s=g(b.dataset.target);var v=(parseInt(s.textContent,10)||0)+(b.classList.contains(&quot;up&quot;)?1:-1);if(v<0)v=0;s.textContent=v;updTeamTotal(b.dataset.target.split(&quot;_&quot;)[0]);});
   g(&quot;ed_body&quot;).addEventListener(&quot;input&quot;,renderPreview);
   clearAll();
 
-  g(&quot;btn_gen&quot;).addEventListener(&quot;click&quot;,function(){computeHeaderSet();var m=getEmail();g(&quot;ed_subject&quot;).value=m.subject;g(&quot;ed_body&quot;).value=m.body;renderPreview();g(&quot;editbox&quot;).style.display=&quot;block&quot;;g(&quot;editbox&quot;).scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});downloadExcel(true);});
-  g(&quot;btn_reset&quot;).addEventListener(&quot;click&quot;,clearAll);
+  g(&quot;btn_gen&quot;).addEventListener(&quot;click&quot;,function(){
+    computeHeaderSet();var m=getEmail();g(&quot;ed_subject&quot;).value=m.subject;g(&quot;ed_body&quot;).value=m.body;renderPreview();g(&quot;editbox&quot;).style.display=&quot;block&quot;;g(&quot;editbox&quot;).scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});
+    downloadExcel(true);
+    var faltan=[];if(!g(&quot;f_codigo&quot;).value.trim())faltan.push(&quot;Código&quot;);if(!g(&quot;f_desc&quot;).value.trim())faltan.push(&quot;Descripción&quot;);
+    if(faltan.length){msg(&quot;err&quot;,&quot;Aviso: falta &quot;+faltan.join(&quot; y/o &quot;)+&quot; del proyecto. Revisa antes de enviar.&quot;);}
+    else{msg(&quot;ok&quot;,&quot;Correo generado. Excel del pedido descargado automáticamente.&quot;);}
+  });
+  g(&quot;btn_reset&quot;).addEventListener(&quot;click&quot;,function(){if(confirm(&quot;¿Limpiar todo? (borra también el borrador autoguardado)&quot;)){clearAll();}});
 
   function b64utf8(str){return btoa(unescape(encodeURIComponent(str)));}
   function wrap76(s){var o=[];for(var i=0;i<s.length;i+=76)o.push(s.slice(i,i+76));return o.join(&quot;\r\n&quot;);}
   g(&quot;btn_eml&quot;).addEventListener(&quot;click&quot;,function(){
     var subject=g(&quot;ed_subject&quot;).value;var html=bodyToHtml(g(&quot;ed_body&quot;).value);
-    var toH=TO.map(function(p){return p.n+&quot; <&quot;+p.e+&quot;>&quot;;}).join(&quot;, &quot;);var ccH=CC.map(function(p){return p.n+&quot; <&quot;+p.e+&quot;>&quot;;}).join(&quot;, &quot;);
+    var toH=effectiveTO().map(function(p){return p.n+&quot; <&quot;+p.e+&quot;>&quot;;}).join(&quot;, &quot;);var ccH=CC.map(function(p){return p.n+&quot; <&quot;+p.e+&quot;>&quot;;}).join(&quot;, &quot;);
     var eml=[&quot;X-Unsent: 1&quot;,&quot;To: &quot;+toH,&quot;Cc: &quot;+ccH,&quot;Subject: =?UTF-8?B?&quot;+b64utf8(subject)+&quot;?=&quot;,&quot;X-Mailer: Dominion PRL Generator&quot;,&quot;MIME-Version: 1.0&quot;,&quot;Content-Type: text/html; charset=utf-8&quot;,&quot;Content-Transfer-Encoding: base64&quot;,&quot;&quot;,wrap76(b64utf8(html))].join(&quot;\r\n&quot;);
     var blob=new Blob([eml],{type:&quot;message/rfc822&quot;});var a=document.createElement(&quot;a&quot;);a.href=URL.createObjectURL(blob);a.download=(g(&quot;f_codigo&quot;).value.trim()||&quot;PRL&quot;).replace(/[^\w.-]+/g,&quot;_&quot;)+&quot;_PRL.eml&quot;;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1500);
   });
-  g(&quot;btn_mailto&quot;).addEventListener(&quot;click&quot;,function(){var subject=g(&quot;ed_subject&quot;).value,body=g(&quot;ed_body&quot;).value;var to=TO.map(function(p){return p.e;}).join(&quot;,&quot;),cc=CC.map(function(p){return p.e;}).join(&quot;,&quot;);window.location.href=&quot;mailto:&quot;+to+&quot;?cc=&quot;+cc+&quot;&amp;subject=&quot;+encodeURIComponent(subject)+&quot;&amp;body=&quot;+encodeURIComponent(body);});
+  g(&quot;btn_mailto&quot;).addEventListener(&quot;click&quot;,function(){var subject=g(&quot;ed_subject&quot;).value,body=g(&quot;ed_body&quot;).value;var to=effectiveTO().map(function(p){return p.e;}).join(&quot;,&quot;),cc=CC.map(function(p){return p.e;}).join(&quot;,&quot;);window.location.href=&quot;mailto:&quot;+to+&quot;?cc=&quot;+cc+&quot;&amp;subject=&quot;+encodeURIComponent(subject)+&quot;&amp;body=&quot;+encodeURIComponent(body);});
   function copyText(txt,btn){var done=function(){var o=btn.textContent;btn.textContent=&quot;Copiado ✓&quot;;setTimeout(function(){btn.textContent=o;},1400);};if(navigator.clipboard&amp;&amp;navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fallback(txt,done);});}else fallback(txt,done);}
   function fallback(txt,done){var t=document.createElement(&quot;textarea&quot;);t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand(&quot;copy&quot;);}catch(e){}t.remove();done();}
   g(&quot;cp_body&quot;).addEventListener(&quot;click&quot;,function(){copyText(g(&quot;ed_body&quot;).value,this);});
@@ -946,6 +1040,23 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     }).catch(function(e){alert(&quot;No se pudo generar el Excel: &quot;+e.message);});
   }
   g(&quot;btn_xlsx&quot;).addEventListener(&quot;click&quot;,downloadExcel);
+
+  /* ---------------- SECTION NAV ---------------- */
+  (function(){
+    var links=Array.prototype.slice.call(document.querySelectorAll(&quot;.secnav a&quot;));
+    var secs=[&quot;sec-dir&quot;,&quot;sec-per&quot;,&quot;sec-seg&quot;,&quot;sec-plan&quot;,&quot;sec-jor&quot;,&quot;eqcard&quot;,&quot;sec-trab&quot;,&quot;sec-not&quot;,&quot;sec-cierre&quot;].map(function(id){return g(id);}).filter(Boolean);
+    links.forEach(function(a){a.addEventListener(&quot;click&quot;,function(e){e.preventDefault();var t=g(a.dataset.sec);if(t)t.scrollIntoView({behavior:&quot;smooth&quot;,block:&quot;start&quot;});});});
+    if(&quot;IntersectionObserver&quot; in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          var link=document.querySelector('.secnav a[data-sec=&quot;'+en.target.id+'&quot;]');
+          if(!link)return;
+          if(en.isIntersecting){links.forEach(function(l){l.classList.remove(&quot;active&quot;);});link.classList.add(&quot;active&quot;);}
+        });
+      },{rootMargin:&quot;-20% 0px -70% 0px&quot;,threshold:0});
+      secs.forEach(function(s){io.observe(s);});
+    }
+  })();
 })();
 </script>
 <script>
@@ -971,11 +1082,12 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     Object.keys(o.c||{}).forEach(function(id){var e=document.getElementById(id);if(e)e.checked=o.c[id];});
     Object.keys(o.cnt||{}).forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=o.cnt[id];});
     Object.keys(o.radio||{}).forEach(function(name){var r=document.querySelector('input[type=radio][name=&quot;'+name+'&quot;][value=&quot;'+o.radio[name]+'&quot;]');if(r)r.checked=true;});
+    if(window.updTeamTotal){[&quot;dia&quot;,&quot;tarde&quot;,&quot;noche&quot;].forEach(function(k){window.updTeamTotal(k);});}
     els().forEach(fire);
     document.querySelectorAll('input[type=radio]').forEach(fire);
   }
   var saveT=null;
-  function save(){clearTimeout(saveT);saveT=setTimeout(function(){try{localStorage.setItem(SKEY,JSON.stringify(collect()));var h=document.getElementById('prl_autosave');if(h)h.textContent=&quot;Borrador guardado automaticamente en este equipo - &quot;+new Date().toLocaleTimeString();}catch(e){}},250);}
+  function save(){clearTimeout(saveT);saveT=setTimeout(function(){try{localStorage.setItem(SKEY,JSON.stringify(collect()));var h=document.getElementById('prl_autosave');if(h){h.textContent=&quot;Borrador guardado automaticamente en este equipo - &quot;+new Date().toLocaleTimeString();h.classList.remove(&quot;flash&quot;);void h.offsetWidth;h.classList.add(&quot;flash&quot;);setTimeout(function(){h.classList.remove(&quot;flash&quot;);},800);}}catch(e){}},250);}
   document.addEventListener('input',save,true);
   document.addEventListener('change',save,true);
   document.addEventListener('click',function(e){var b=e.target.closest&amp;&amp;e.target.closest('button.up,button.dn');if(b)setTimeout(save,20);});
