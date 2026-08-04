@@ -211,7 +211,7 @@
       <div class=&quot;hint&quot;>Editable. Escribe el responsable (DDE, DIB, ALTAC, N/A…) y el detalle. Sale en inglés dentro de Pricing.</div>
       <datalist id=&quot;dl_crc&quot;><option value=&quot;Flight Tickets&quot;></option><option value=&quot;Visa&quot;></option><option value=&quot;Accommodation&quot;></option><option value=&quot;General Documentation&quot;></option><option value=&quot;Local Transportation&quot;></option><option value=&quot;Other Expenses (Medical, etc.)&quot;></option><option value=&quot;Transport in Portugal&quot;></option></datalist>
       <datalist id=&quot;dl_crr&quot;><option value=&quot;DIB&quot;></option><option value=&quot;DDE&quot;></option><option value=&quot;ALTAC&quot;></option><option value=&quot;Client&quot;></option><option value=&quot;N/A&quot;></option></datalist>
-      <datalist id=&quot;dl_crd&quot;><option value=&quot;Complete Management&quot;></option><option value=&quot;Management and Payment&quot;></option><option value=&quot;(+10% Fee)&quot;></option><option value=&quot;Management and Payment (+10% Fee)&quot;></option><option value=&quot;N/A&quot;></option></datalist>
+      <datalist id=&quot;dl_crd&quot;><option value=&quot;Complete Management&quot;></option><option value=&quot;Management and Payment&quot;></option><option value=&quot;(+10% Fee)&quot;></option><option value=&quot;Management and Payment (+10% Fee)&quot;></option><option value=&quot;Management Only (No Fee)&quot;></option><option value=&quot;Payment Only&quot;></option><option value=&quot;Reimbursement on actuals&quot;></option><option value=&quot;Client Direct Payment&quot;></option><option value=&quot;N/A&quot;></option></datalist>
       <div id=&quot;cr_rows&quot; style=&quot;margin-top:10px&quot;></div>
       <button class=&quot;tinybtn&quot; id=&quot;cr_add&quot; type=&quot;button&quot;>+ Añadir concepto</button>
     </div>
@@ -275,9 +275,13 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function saveHist(id){var el=g(id);if(!el)return;var val=el.value.trim();if(!val)return;var arr=loadHist(id).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(id),JSON.stringify(arr));}catch(e){}fillHistDatalist(id);}
   function fillCrcHist(){var dl=g(&quot;dl_crc&quot;);if(!dl)return;Array.prototype.slice.call(dl.querySelectorAll(&quot;option[data-hist]&quot;)).forEach(function(o){o.remove();});loadHist(&quot;cr_c&quot;).forEach(function(val){var o=document.createElement(&quot;option&quot;);o.value=val;o.setAttribute(&quot;data-hist&quot;,&quot;1&quot;);dl.appendChild(o);});}
   function saveCrcHist(){document.querySelectorAll(&quot;#cr_rows .cr_c&quot;).forEach(function(el){var val=el.value.trim();if(!val)return;var arr=loadHist(&quot;cr_c&quot;).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(&quot;cr_c&quot;),JSON.stringify(arr));}catch(e){}});fillCrcHist();}
+  function fillCrHistFor(field,dlId){var dl=g(dlId);if(!dl)return;Array.prototype.slice.call(dl.querySelectorAll(&quot;option[data-hist]&quot;)).forEach(function(o){o.remove();});loadHist(field).forEach(function(val){var o=document.createElement(&quot;option&quot;);o.value=val;o.setAttribute(&quot;data-hist&quot;,&quot;1&quot;);dl.appendChild(o);});}
+  function saveCrHistFor(field,cls){document.querySelectorAll(&quot;#cr_rows .&quot;+cls).forEach(function(el){var val=el.value.trim();if(!val)return;var arr=loadHist(field).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(field),JSON.stringify(arr));}catch(e){}});fillCrHistFor(field,field===&quot;cr_r&quot;?&quot;dl_crr&quot;:&quot;dl_crd&quot;);}
   var HIST_FIELDS_OFF=[&quot;f_t2&quot;,&quot;f_att&quot;,&quot;f_loc&quot;,&quot;f_country&quot;,&quot;f_t1&quot;,&quot;f_dear&quot;,&quot;f_unit&quot;];
   HIST_FIELDS_OFF.forEach(fillHistDatalist);
   fillCrcHist();
+  fillCrHistFor(&quot;cr_r&quot;,&quot;dl_crr&quot;);
+  fillCrHistFor(&quot;cr_d&quot;,&quot;dl_crd&quot;);
 
   /* defaults */
   (function(){var d=new Date();var p=function(n){return(n<10?&quot;0&quot;:&quot;&quot;)+n;};g(&quot;f_coverdate&quot;).value=d.getFullYear()+&quot;-&quot;+p(d.getMonth()+1)+&quot;-&quot;+p(d.getDate());})();
@@ -462,6 +466,8 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     }
     HIST_FIELDS_OFF.forEach(saveHist);
     saveCrcHist();
+    saveCrHistFor(&quot;cr_r&quot;,&quot;cr_r&quot;);
+    saveCrHistFor(&quot;cr_d&quot;,&quot;cr_d&quot;);
 
     JSZip.loadAsync(Uint8Array.from(atob(T.B64TPL),function(c){return c.charCodeAt(0);})).then(function(zip){
       return zip.file(&quot;word/document.xml&quot;).async(&quot;string&quot;).then(function(xml){
