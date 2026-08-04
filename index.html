@@ -146,7 +146,7 @@
 
     <div class=&quot;sec&quot; id=&quot;sec-portada&quot;>1 · Portada</div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Título — línea 1</label><input id=&quot;f_t1&quot; placeholder=&quot;Maintenance of Rotary Kiln&quot;></div>
+      <div class=&quot;fld&quot;><label>Título — línea 1</label><input id=&quot;f_t1&quot; list=&quot;dl_hist_f_t1&quot; placeholder=&quot;Maintenance of Rotary Kiln&quot;><datalist id=&quot;dl_hist_f_t1&quot;></datalist></div>
       <div class=&quot;fld&quot;><label>Título — línea 2 (cliente / localidad)</label><input id=&quot;f_t2&quot; list=&quot;dl_hist_f_t2&quot; placeholder=&quot;Currenta Leverkusen&quot;><datalist id=&quot;dl_hist_f_t2&quot;></datalist></div>
       <div class=&quot;fld&quot;><label>Fecha de la oferta</label><input id=&quot;f_coverdate&quot; type=&quot;date&quot;></div>
     </div>
@@ -157,7 +157,7 @@
     </div>
     <div class=&quot;row&quot;>
       <div class=&quot;fld&quot; id=&quot;fld_f_desc&quot;><label>Project Description <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; placeholder=&quot;Rotary kiln at Currenta – Leverkusen&quot;></div>
-      <div class=&quot;fld&quot;><label>Dear (saludo)</label><input id=&quot;f_dear&quot; placeholder=&quot;Robert&quot;></div>
+      <div class=&quot;fld&quot;><label>Dear (saludo)</label><input id=&quot;f_dear&quot; list=&quot;dl_hist_f_dear&quot; placeholder=&quot;Robert&quot;><datalist id=&quot;dl_hist_f_dear&quot;></datalist></div>
     </div>
 
     <div class=&quot;sec&quot; id=&quot;sec-alcance&quot;>2 · Alcance y ubicación</div>
@@ -169,7 +169,7 @@
           <option value=&quot;boiler repair&quot;></option><option value=&quot;furnace reconstruction&quot;></option><option value=&quot;shuttering works for tube walls&quot;></option>
         </datalist>
       </div>
-      <div class=&quot;fld&quot;><label>Unidad / unidades a trabajar</label><input id=&quot;f_unit&quot; placeholder=&quot;Unit 10, Furnace section B&quot;></div>
+      <div class=&quot;fld&quot;><label>Unidad / unidades a trabajar</label><input id=&quot;f_unit&quot; list=&quot;dl_hist_f_unit&quot; placeholder=&quot;Unit 10, Furnace section B&quot;><datalist id=&quot;dl_hist_f_unit&quot;></datalist></div>
     </div>
     <div class=&quot;row&quot;>
       <div class=&quot;fld&quot;><label>Ciudad</label><input id=&quot;f_loc&quot; list=&quot;dl_hist_f_loc&quot; placeholder=&quot;Leverkusen&quot;><datalist id=&quot;dl_hist_f_loc&quot;></datalist></div>
@@ -273,8 +273,11 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function loadHist(id){try{var a=JSON.parse(localStorage.getItem(histKey(id))||&quot;[]&quot;);return Array.isArray(a)?a:[];}catch(e){return [];}}
   function fillHistDatalist(id){var dl=g(&quot;dl_hist_&quot;+id);if(!dl)return;dl.innerHTML=loadHist(id).map(function(val){return '<option value=&quot;'+aesc(val)+'&quot;></option>';}).join(&quot;&quot;);}
   function saveHist(id){var el=g(id);if(!el)return;var val=el.value.trim();if(!val)return;var arr=loadHist(id).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(id),JSON.stringify(arr));}catch(e){}fillHistDatalist(id);}
-  var HIST_FIELDS_OFF=[&quot;f_t2&quot;,&quot;f_att&quot;,&quot;f_loc&quot;,&quot;f_country&quot;];
+  function fillCrcHist(){var dl=g(&quot;dl_crc&quot;);if(!dl)return;Array.prototype.slice.call(dl.querySelectorAll(&quot;option[data-hist]&quot;)).forEach(function(o){o.remove();});loadHist(&quot;cr_c&quot;).forEach(function(val){var o=document.createElement(&quot;option&quot;);o.value=val;o.setAttribute(&quot;data-hist&quot;,&quot;1&quot;);dl.appendChild(o);});}
+  function saveCrcHist(){document.querySelectorAll(&quot;#cr_rows .cr_c&quot;).forEach(function(el){var val=el.value.trim();if(!val)return;var arr=loadHist(&quot;cr_c&quot;).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(&quot;cr_c&quot;),JSON.stringify(arr));}catch(e){}});fillCrcHist();}
+  var HIST_FIELDS_OFF=[&quot;f_t2&quot;,&quot;f_att&quot;,&quot;f_loc&quot;,&quot;f_country&quot;,&quot;f_t1&quot;,&quot;f_dear&quot;,&quot;f_unit&quot;];
   HIST_FIELDS_OFF.forEach(fillHistDatalist);
+  fillCrcHist();
 
   /* defaults */
   (function(){var d=new Date();var p=function(n){return(n<10?&quot;0&quot;:&quot;&quot;)+n;};g(&quot;f_coverdate&quot;).value=d.getFullYear()+&quot;-&quot;+p(d.getMonth()+1)+&quot;-&quot;+p(d.getDate());})();
@@ -458,6 +461,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       return;
     }
     HIST_FIELDS_OFF.forEach(saveHist);
+    saveCrcHist();
 
     JSZip.loadAsync(Uint8Array.from(atob(T.B64TPL),function(c){return c.charCodeAt(0);})).then(function(zip){
       return zip.file(&quot;word/document.xml&quot;).async(&quot;string&quot;).then(function(xml){
@@ -751,8 +755,8 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   <div class=&quot;body&quot;>
     <div class=&quot;sec&quot;>Asunto del proyecto</div>
     <div class=&quot;row&quot;>
-      <div class=&quot;fld&quot;><label>Código de proyecto <span class=&quot;req&quot;>*</span></label><input id=&quot;f_codigo&quot; type=&quot;text&quot;><div class=&quot;hint&quot;>Formato: BIPR + año + nº de pedido (ej. BIPR26-00084).</div></div>
-      <div class=&quot;fld&quot;><label>Descripción <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot;><label>Código de proyecto <span class=&quot;req&quot;>*</span></label><input id=&quot;f_codigo&quot; type=&quot;text&quot; list=&quot;dl_hist_f_codigo&quot;><datalist id=&quot;dl_hist_f_codigo&quot;></datalist><div class=&quot;hint&quot;>Formato: BIPR + año + nº de pedido (ej. BIPR26-00084).</div></div>
+      <div class=&quot;fld&quot;><label>Descripción <span class=&quot;req&quot;>*</span></label><input id=&quot;f_desc&quot; type=&quot;text&quot; list=&quot;dl_hist_f_desc&quot;><datalist id=&quot;dl_hist_f_desc&quot;></datalist></div>
     </div>
 
     <div class=&quot;sec&quot;>Cliente final</div>
@@ -789,7 +793,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     <div class=&quot;scard&quot; data-k=&quot;dir&quot; id=&quot;sec-dir&quot;>
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;DIRECCIÓN PLANTA&quot;></div>
       <div class=&quot;fld&quot;><label>Dirección</label><textarea id=&quot;dir_ta&quot;></textarea></div>
-      <div class=&quot;fld&quot;><label>Enlace Google Maps (opcional)</label><input id=&quot;dir_maps&quot; type=&quot;text&quot;><div class=&quot;hint&quot;>Pega aquí el enlace de Google Maps de la ubicación.</div></div>
+      <div class=&quot;fld&quot;><label>Enlace Google Maps (opcional)</label><input id=&quot;dir_maps&quot; type=&quot;text&quot; list=&quot;dl_hist_dir_maps&quot;><datalist id=&quot;dl_hist_dir_maps&quot;></datalist><div class=&quot;hint&quot;>Pega aquí el enlace de Google Maps de la ubicación.</div></div>
       <div class=&quot;hint&quot;>La primera línea (nombre de la planta) se usa en la introducción.</div>
     </div>
 
@@ -797,11 +801,11 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       <div class=&quot;shead&quot;><input type=&quot;checkbox&quot; checked><input class=&quot;shdr&quot; value=&quot;PERSONAL&quot;></div>
       <div class=&quot;subt&quot;>Project Manager</div>
       <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;pm_name&quot; type=&quot;text&quot; list=&quot;dl_hist_pm_name&quot;><datalist id=&quot;dl_hist_pm_name&quot;></datalist></div>
-      <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;pm_tel&quot; type=&quot;text&quot;></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;pm_mov&quot; type=&quot;text&quot;></div></div>
+      <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;pm_tel&quot; type=&quot;text&quot; list=&quot;dl_hist_pm_tel&quot;><datalist id=&quot;dl_hist_pm_tel&quot;></datalist></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;pm_mov&quot; type=&quot;text&quot; list=&quot;dl_hist_pm_mov&quot;><datalist id=&quot;dl_hist_pm_mov&quot;></datalist></div></div>
       <div class=&quot;fld&quot;><label>Email</label><input id=&quot;pm_email&quot; type=&quot;email&quot;></div>
       <div class=&quot;subt&quot;>Jefe de obra</div>
       <div class=&quot;fld&quot;><label>Nombre</label><input id=&quot;jo_name&quot; type=&quot;text&quot; list=&quot;dl_hist_jo_name&quot;><datalist id=&quot;dl_hist_jo_name&quot;></datalist></div>
-      <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;jo_tel&quot; type=&quot;text&quot;></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;jo_mov&quot; type=&quot;text&quot;></div></div>
+      <div class=&quot;row&quot;><div class=&quot;fld&quot;><label>Teléfono</label><input id=&quot;jo_tel&quot; type=&quot;text&quot; list=&quot;dl_hist_jo_tel&quot;><datalist id=&quot;dl_hist_jo_tel&quot;></datalist></div><div class=&quot;fld&quot;><label>Móvil</label><input id=&quot;jo_mov&quot; type=&quot;text&quot; list=&quot;dl_hist_jo_mov&quot;><datalist id=&quot;dl_hist_jo_mov&quot;></datalist></div></div>
       <div class=&quot;hint&quot;>Rellena el que tengas; en el correo solo aparece el contacto con nombre.</div>
     </div>
 
@@ -820,9 +824,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
         <label class=&quot;rdo&quot;><input type=&quot;checkbox&quot; class=&quot;turno&quot; value=&quot;tarde&quot;> Turno tarde</label>
         <label class=&quot;rdo&quot;><input type=&quot;checkbox&quot; class=&quot;turno&quot; value=&quot;noche&quot;> Turno noche</label>
       </div>
-      <div class=&quot;fld&quot; id=&quot;jorhor_dia&quot;><label>Horario turno día</label><input id=&quot;jor_hor_dia&quot; type=&quot;text&quot;></div>
-      <div class=&quot;fld&quot; id=&quot;jorhor_tarde&quot;><label>Horario turno tarde</label><input id=&quot;jor_hor_tarde&quot; type=&quot;text&quot;></div>
-      <div class=&quot;fld&quot; id=&quot;jorhor_noche&quot;><label>Horario turno noche</label><input id=&quot;jor_hor_noche&quot; type=&quot;text&quot;></div>
+      <div class=&quot;fld&quot; id=&quot;jorhor_dia&quot;><label>Horario turno día</label><input id=&quot;jor_hor_dia&quot; type=&quot;text&quot; list=&quot;dl_hist_jor_hor_dia&quot;><datalist id=&quot;dl_hist_jor_hor_dia&quot;></datalist></div>
+      <div class=&quot;fld&quot; id=&quot;jorhor_tarde&quot;><label>Horario turno tarde</label><input id=&quot;jor_hor_tarde&quot; type=&quot;text&quot; list=&quot;dl_hist_jor_hor_tarde&quot;><datalist id=&quot;dl_hist_jor_hor_tarde&quot;></datalist></div>
+      <div class=&quot;fld&quot; id=&quot;jorhor_noche&quot;><label>Horario turno noche</label><input id=&quot;jor_hor_noche&quot; type=&quot;text&quot; list=&quot;dl_hist_jor_hor_noche&quot;><datalist id=&quot;dl_hist_jor_hor_noche&quot;></datalist></div>
       <div class=&quot;fld&quot;><label>Detalle</label><textarea id=&quot;jor_ta&quot;></textarea></div>
     </div>
 
@@ -930,7 +934,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function loadHist(id){try{var a=JSON.parse(localStorage.getItem(histKey(id))||&quot;[]&quot;);return Array.isArray(a)?a:[];}catch(e){return [];}}
   function fillHistDatalist(id){var dl=g(&quot;dl_hist_&quot;+id);if(!dl)return;dl.innerHTML=loadHist(id).map(function(val){return '<option value=&quot;'+val.replace(/&amp;/g,&quot;&amp;amp;&quot;).replace(/&quot;/g,&quot;&amp;quot;&quot;)+'&quot;></option>';}).join(&quot;&quot;);}
   function saveHist(id){var el=g(id);if(!el)return;var val=el.value.trim();if(!val)return;var arr=loadHist(id).filter(function(x){return x!==val;});arr.unshift(val);if(arr.length>8)arr=arr.slice(0,8);try{localStorage.setItem(histKey(id),JSON.stringify(arr));}catch(e){}fillHistDatalist(id);}
-  var HIST_FIELDS_PRL=[&quot;i_jppdib&quot;,&quot;pm_name&quot;,&quot;jo_name&quot;,&quot;i_contrato&quot;,&quot;i_cliente_otro&quot;];
+  var HIST_FIELDS_PRL=[&quot;i_jppdib&quot;,&quot;pm_name&quot;,&quot;jo_name&quot;,&quot;i_contrato&quot;,&quot;i_cliente_otro&quot;,&quot;f_codigo&quot;,&quot;f_desc&quot;,&quot;dir_maps&quot;,&quot;pm_tel&quot;,&quot;pm_mov&quot;,&quot;jo_tel&quot;,&quot;jo_mov&quot;,&quot;jor_hor_dia&quot;,&quot;jor_hor_tarde&quot;,&quot;jor_hor_noche&quot;];
 
   var roles=[[&quot;enc&quot;,&quot;Encargado&quot;,&quot;Encargados&quot;],[&quot;lead&quot;,&quot;Jefe de equipo&quot;,&quot;Jefes de equipo&quot;],[&quot;ofi&quot;,&quot;Oficial&quot;,&quot;Oficiales&quot;],[&quot;ayu&quot;,&quot;Ayudante&quot;,&quot;Ayudantes&quot;]];
   var shiftDefs=[[&quot;dia&quot;,&quot;TURNO DÍA&quot;,&quot;día&quot;],[&quot;tarde&quot;,&quot;TURNO TARDE&quot;,&quot;tarde&quot;],[&quot;noche&quot;,&quot;TURNO NOCHE&quot;,&quot;noche&quot;]];
