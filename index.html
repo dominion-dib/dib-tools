@@ -99,11 +99,11 @@
   .legalgrid input{width:17px;height:17px;accent-color:var(--blue)}
   .crrow{display:grid;grid-template-columns:1.3fr 1fr 1.4fr auto;gap:8px;margin-bottom:8px}
   .crrow input{font-size:13.5px}
-  .btns{display:flex;gap:15px;margin-top:28px;justify-content:center;flex-wrap:wrap}
-  button.act{font-family:inherit;font-size:15px;font-weight:600;border-radius:var(--radius);padding:14px 28px;cursor:pointer;border:1px solid var(--border2);background:#fff;color:var(--navy);display:inline-flex;align-items:center;gap:10px;transition:background var(--transition),border-color var(--transition),box-shadow var(--transition),transform var(--transition)}
-  button.act:hover{border-color:var(--blue2);box-shadow:var(--shadow-xs);transform:translateY(-1px)}
-  button.primary{background:linear-gradient(120deg,var(--blue) 0%,var(--blue2) 100%);border-color:var(--blue2);color:#fff;box-shadow:var(--shadow-sm)}
-  button.primary:hover{background:linear-gradient(120deg,var(--blue2) 0%,#022c8f 100%);box-shadow:0 8px 24px rgba(0,95,249,.32);transform:translateY(-1px)}
+  .btns{display:flex;gap:15px;margin-top:28px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .act{font-family:inherit;font-size:15px;font-weight:600;border-radius:var(--radius);padding:14px 28px;cursor:pointer;border:1px solid var(--border2);background:#fff;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;gap:10px;line-height:1.2;box-sizing:border-box;transition:background var(--transition),border-color var(--transition),box-shadow var(--transition),transform var(--transition)}
+  .act:hover{border-color:var(--blue2);box-shadow:var(--shadow-xs);transform:translateY(-1px)}
+  .act.primary{background:linear-gradient(120deg,var(--blue) 0%,var(--blue2) 100%);border-color:var(--blue2);color:#fff;box-shadow:var(--shadow-sm)}
+  .act.primary:hover{background:linear-gradient(120deg,var(--blue2) 0%,#022c8f 100%);box-shadow:0 8px 24px rgba(0,95,249,.32);transform:translateY(-1px)}
   .tinybtn{font-size:12px;font-weight:600;border:1px solid var(--border2);background:#fff;color:var(--navy);border-radius:var(--radius);padding:7px 12px;cursor:pointer;margin-top:4px;transition:background var(--transition),border-color var(--transition)}
   .tinybtn:hover{border-color:var(--blue2);background:#f0f4ff}
   .warn{font-size:13px;margin-top:15px;padding:12px 14px;border-radius:var(--radius);display:none;text-align:center}
@@ -697,11 +697,13 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   .chip{background:#fff;border:1px solid var(--border2);border-radius:20px;padding:4px 11px;font-size:12.5px;color:var(--ink2)}
   .chip.cc{background:#eef3fe;border-color:#cfe0fd}
   .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-  button.act{font-family:inherit;font-size:14px;font-weight:600;border-radius:var(--radius);padding:11px 18px;cursor:pointer;border:1px solid var(--border2);background:#fff;color:var(--navy);display:inline-flex;align-items:center;gap:8px;transition:background var(--transition),border-color var(--transition),box-shadow var(--transition),transform var(--transition)}
-  button.act:hover{border-color:var(--blue2);box-shadow:var(--shadow-xs);transform:translateY(-1px)}
-  button.primary{background:linear-gradient(120deg,var(--blue) 0%,var(--blue2) 100%);border-color:var(--blue2);color:#fff;box-shadow:var(--shadow-sm)}
-  button.primary:hover{background:linear-gradient(120deg,var(--blue2) 0%,#022c8f 100%);box-shadow:0 8px 24px rgba(0,95,249,.32);transform:translateY(-1px)}
-  button.ghost{background:transparent}
+  .act{font-family:inherit;font-size:14px;font-weight:600;border-radius:var(--radius);padding:11px 18px;cursor:pointer;border:1px solid var(--border2);background:#fff;color:var(--navy);display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.2;box-sizing:border-box;transition:background var(--transition),border-color var(--transition),box-shadow var(--transition),transform var(--transition)}
+  .act:hover{border-color:var(--blue2);box-shadow:var(--shadow-xs);transform:translateY(-1px)}
+  .act.primary{background:linear-gradient(120deg,var(--blue) 0%,var(--blue2) 100%);border-color:var(--blue2);color:#fff;box-shadow:var(--shadow-sm)}
+  .act.primary:hover{background:linear-gradient(120deg,var(--blue2) 0%,#022c8f 100%);box-shadow:0 8px 24px rgba(0,95,249,.32);transform:translateY(-1px)}
+  .act.ghost{background:transparent}
+  #btns_main{gap:15px;margin-top:28px;justify-content:center;align-items:center}
+  #btns_main .act{font-size:15px;padding:14px 28px}
   .ico{width:17px;height:17px;display:inline-block;vertical-align:-3px}
   #editbox{border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-top:16px;background:var(--g1)}
   .preview{margin-top:6px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-xs)}
@@ -885,10 +887,14 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     <div class=&quot;sec&quot; id=&quot;sec-cierre&quot;>Cierre</div>
     <div class=&quot;fld&quot;><input id=&quot;f_cierre&quot; list=&quot;dl_c&quot; type=&quot;text&quot;><datalist id=&quot;dl_c&quot;><option value=&quot;Un saludo,&quot;><option value=&quot;Un abrazo,&quot;><option value=&quot;Saludos,&quot;><option value=&quot;Mit freundlichen Grüßen,&quot;></datalist></div>
 
-    <div class=&quot;btns&quot;>
+    <div class=&quot;btns&quot; id=&quot;btns_main&quot;>
       <button class=&quot;act primary&quot; id=&quot;btn_gen&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M4 4h16v16H4z&quot;/><path d=&quot;M8 9h8M8 13h8M8 17h5&quot;/></svg> Generar correo</button>
+      <button class=&quot;act&quot; id=&quot;prl_save&quot; type=&quot;button&quot;>Guardar borrador (.json)</button>
+      <label class=&quot;act&quot; for=&quot;prl_file&quot; style=&quot;cursor:pointer&quot;>Cargar borrador</label>
+      <input id=&quot;prl_file&quot; type=&quot;file&quot; accept=&quot;application/json,.json&quot; style=&quot;display:none&quot;>
       <button class=&quot;act ghost&quot; id=&quot;btn_reset&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M4 4v6h6&quot;/><path d=&quot;M20 20v-6h-6&quot;/><path d=&quot;M5 13a7 7 0 0 0 13 2M19 11a7 7 0 0 0-13-2&quot;/></svg> Limpiar campos</button>
     </div>
+    <div class=&quot;hint&quot; style=&quot;text-align:center&quot; id=&quot;prl_autosave&quot;></div>
     <div id=&quot;msg&quot; class=&quot;warn&quot;></div>
 
     <div id=&quot;editbox&quot;>
@@ -1180,14 +1186,6 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   document.addEventListener('input',save,true);
   document.addEventListener('change',save,true);
   document.addEventListener('click',function(e){var b=e.target.closest&amp;&amp;e.target.closest('button.up,button.dn');if(b)setTimeout(save,20);});
-  var body=document.querySelector('.body')||document.body;
-  var bar=document.createElement('div');
-  bar.style.cssText=&quot;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 14px&quot;;
-  bar.innerHTML='<button type=&quot;button&quot; id=&quot;prl_save&quot; style=&quot;font-family:inherit;font-size:13px;padding:9px 14px;border:1px solid #c7cee0;border-radius:8px;background:#fff;cursor:pointer;font-weight:600;color:#0C1040&quot;>Guardar borrador (.json)</button>'
-    +'<label for=&quot;prl_file&quot; style=&quot;font-family:inherit;font-size:13px;padding:9px 14px;border:1px solid #c7cee0;border-radius:8px;background:#fff;cursor:pointer;font-weight:600;color:#0C1040&quot;>Cargar borrador</label>'
-    +'<input id=&quot;prl_file&quot; type=&quot;file&quot; accept=&quot;application/json,.json&quot; style=&quot;display:none&quot;>'
-    +'<span id=&quot;prl_autosave&quot; style=&quot;font-size:12px;color:#8a93a8&quot;></span>';
-  body.insertBefore(bar, body.firstChild);
   document.getElementById('prl_save').onclick=function(){var blob=new Blob([JSON.stringify(collect(),null,2)],{type:&quot;application/json&quot;});var a=document.createElement('a');a.href=URL.createObjectURL(blob);var c=document.getElementById('f_codigo');var cod=(c&amp;&amp;c.value.trim())||&quot;borrador&quot;;a.download=cod.replace(/[^\w.-]+/g,&quot;_&quot;)+&quot;_PRL.json&quot;;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);};
   document.getElementById('prl_file').onchange=function(e){var fl=e.target.files[0];if(!fl)return;var rd=new FileReader();rd.onload=function(){try{apply(JSON.parse(rd.result));save();document.getElementById('prl_autosave').textContent=&quot;Borrador cargado desde archivo.&quot;;}catch(err){alert(&quot;Archivo no valido: &quot;+err.message);}};rd.readAsText(fl);e.target.value=&quot;&quot;;};
   try{var sv=localStorage.getItem(SKEY);if(sv){apply(JSON.parse(sv));document.getElementById('prl_autosave').textContent=&quot;Borrador recuperado automaticamente.&quot;;}}catch(e){}
